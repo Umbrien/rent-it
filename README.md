@@ -1,4 +1,4 @@
-# Rent-it
+# rent.it 🏘
 
 ## Prisma
 
