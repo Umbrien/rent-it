@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import type { Route } from "next";
 import { useAuth } from "@/hooks/useAuth";
-import type { User } from "@prisma/client";
+// import type { User } from "@prisma/client";
 import {
   IconBuildingWarehouse,
   IconArrowDown,
@@ -15,22 +15,23 @@ import {
   IconLogin,
   IconLogout,
 } from "@tabler/icons-react";
+import { NumberSpan } from "@/components/NumberSpan";
 
-const u: User = {
-  id: 1,
-  email: "user@gmail.com",
-  password: "user",
-  role: "USER",
-  balance: 1000,
-};
-
-const a: User = {
-  id: 2,
-  email: "admin@example.com",
-  password: "admin",
-  role: "ADMIN",
-  balance: 1000,
-};
+// const u: User = {
+//   id: 1,
+//   email: "user@gmail.com",
+//   password: "user",
+//   role: "USER",
+//   balance: 1000,
+// };
+//
+// const a: User = {
+//   id: 2,
+//   email: "admin@example.com",
+//   password: "admin",
+//   role: "ADMIN",
+//   balance: 1000,
+// };
 
 function HeaderLink({
   href,
@@ -45,24 +46,24 @@ function HeaderLink({
 }) {
   if (!icon)
     return (
-      <Link href={href} className={`text-gray-900 ${isActive ? "italic" : ""}`}>
+      <Link href={href} className={`${isActive ? "italic" : ""}`}>
         {children}
       </Link>
     );
 
   return (
-    <span className="flex w-fit items-center gap-1">
-      {icon}
-      <Link href={href} className={`${isActive ? "italic" : ""}`}>
+    <Link href={href} className={`${isActive ? "italic" : ""}`}>
+      <span className="flex w-fit items-center gap-1">
+        {icon}
         {children}
-      </Link>
-    </span>
+      </span>
+    </Link>
   );
 }
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const { user, login, logout } = useAuth();
+  const { user, logout } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -72,8 +73,8 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="h-full w-full bg-gray-100">
-      <nav className="sticky top-0 flex items-center justify-between border-b-4 border-primary-400 bg-white p-4 text-gray-800">
+    <div className="h-full w-full">
+      <nav className="sticky top-0 flex h-[76px] items-center justify-between border-b-4 border-primary-400 bg-white p-4 text-gray-800">
         <div className="flex items-center space-x-8">
           <HeaderLink
             href="/"
@@ -115,7 +116,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
             </span>
             <span className="flex w-fit gap-1">
               <IconCurrencyHryvnia />
-              {user.balance}
+              <NumberSpan number={user.balance} />
             </span>
           </div>
         )}
@@ -156,12 +157,12 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
           )}
         </div>
       </nav>
-      <button onClick={() => login(u)} className="bg-orange-200 text-gray-900">
-        Login user
-      </button>
-      <button onClick={() => login(a)} className="bg-orange-200 text-gray-900">
-        Login admin
-      </button>
+      {/*<button onClick={() => login(u)} className="bg-orange-200 text-gray-900">*/}
+      {/*  Login user*/}
+      {/*</button>*/}
+      {/*<button onClick={() => login(a)} className="bg-orange-200 text-gray-900">*/}
+      {/*  Login admin*/}
+      {/*</button>*/}
 
       {children}
     </div>
