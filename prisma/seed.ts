@@ -2,6 +2,28 @@ import { PrismaClient } from "@prisma/client";
 import * as console from "console";
 const prisma = new PrismaClient();
 async function main() {
+  const garageOwner = await prisma.user.upsert({
+    where: { username: "kostyantyn" },
+    update: {},
+    create: {
+      username: "kostyantyn",
+      email: "kostyantyn@example.com",
+      password: "$2a$10$",
+      balance: 1000,
+    },
+  });
+
+  const postalOfficeOwner = await prisma.user.upsert({
+    where: { username: "volodymyr" },
+    update: {},
+    create: {
+      username: "volodymyr",
+      email: "volodymyr@example.com",
+      password: "$3a$20$",
+      balance: 10000,
+    },
+  });
+
   const garage = await prisma.warehouse.upsert({
     where: { id: "clkogrf0u000008mfausr8zfn" },
     update: {},
@@ -12,6 +34,14 @@ async function main() {
       warehouseType: {
         create: {
           type: "Garage",
+        },
+      },
+      owner: {
+        connect: garageOwner,
+      },
+      smartLock: {
+        create: {
+          imei: "104277641444418",
         },
       },
     },
@@ -29,50 +59,36 @@ async function main() {
           type: "Distribution Center",
         },
       },
-    },
-  });
-
-  await prisma.smartLock.upsert({
-    where: { imei: "104277641444418" },
-    update: {},
-    create: {
-      imei: "104277641444418",
-      warehouse: {
-        connect: {
-          id: garage.id,
-        },
+      owner: {
+        connect: postalOfficeOwner,
       },
-    },
-  });
-
-  await prisma.smartLock.upsert({
-    where: { imei: "448698377955746" },
-    update: {},
-    create: {
-      imei: "448698377955746",
-      warehouse: {
-        connect: {
-          id: postalOffice.id,
+      smartLock: {
+        create: {
+          imei: "448698377955746",
         },
       },
     },
   });
 
   const garageUser = await prisma.user.upsert({
-    where: { id: 1 },
+    where: { username: "alice" },
     update: {},
     create: {
+      username: "alice",
       email: "alice@example.com",
       password: "$2a$10$",
+      balance: 200,
     },
   });
 
   const postalOfficeUser = await prisma.user.upsert({
-    where: { id: 2 },
+    where: { username: "bob" },
     update: {},
     create: {
+      username: "bob",
       email: "bob@example.com",
       password: "$3a$20$",
+      balance: 1000,
     },
   });
 
@@ -82,6 +98,7 @@ async function main() {
     create: {
       startDate: new Date(),
       endDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+      balance: garage.dailyRate * 7,
       user: {
         connect: {
           id: garageUser.id,
@@ -100,7 +117,8 @@ async function main() {
     update: {},
     create: {
       startDate: new Date(),
-      endDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+      endDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 10),
+      balance: postalOffice.dailyRate * 10,
       user: {
         connect: {
           id: postalOfficeUser.id,
@@ -115,9 +133,10 @@ async function main() {
   });
 
   await prisma.user.upsert({
-    where: { id: 3 },
+    where: { username: "root" },
     update: {},
     create: {
+      username: "root",
       email: "root@example.com",
       password: "toor",
       role: "ADMIN",

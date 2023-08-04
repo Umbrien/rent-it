@@ -14,12 +14,14 @@ enum Role {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  email    String
-  password String
-  role     Role     @default(USER)
-  rentals  Rental[]
-  balance  Int      @default(0)
+  id         Int         @id @default(autoincrement())
+  username   String      @unique
+  email      String
+  password   String
+  role       Role        @default(USER)
+  rentals    Rental[]
+  balance    Int         @default(0)
+  warehouses Warehouse[]
 }
 
 model WarehouseType {
@@ -36,13 +38,16 @@ model Warehouse {
   rentals         Rental[]
   warehouseTypeId String
   warehouseType   WarehouseType @relation(fields: [warehouseTypeId], references: [id])
-  SmartLock       SmartLock?
+  owner           User          @relation(fields: [ownerId], references: [id])
+  ownerId         Int
+  smartLock       SmartLock?
 }
 
 model Rental {
   id          Int       @id @default(autoincrement())
   startDate   DateTime
   endDate     DateTime
+  balance     Int
   user        User      @relation(fields: [userId], references: [id])
   userId      Int
   warehouse   Warehouse @relation(fields: [warehouseId], references: [id])
