@@ -2,6 +2,8 @@ import Link from "next/link";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { headerHeight } from "@/components/MainLayout";
+import { AuthInput } from "@/components/auth/Input";
 
 const validationSchema = z.object({
   email: z.string().email({ message: "Fill in real email" }),
@@ -24,11 +26,14 @@ export default function LoginPage() {
 
   const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
     console.log(data);
+    alert("Login");
     // process login..
   };
 
   return (
-    <div className="flex min-h-[calc(100vh-76px)]  flex-col justify-center bg-gray-50 py-12 sm:px-6 lg:px-8">
+    <div
+      className={`flex min-h-[calc(100vh-${headerHeight})]  flex-col justify-center bg-gray-50 py-12 sm:px-6 lg:px-8`}
+    >
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-700">
           Login
@@ -38,32 +43,20 @@ export default function LoginPage() {
           onSubmit={(e) => void handleSubmit(onSubmit)(e)}
         >
           <div className="-space-y-px rounded-md shadow-sm">
-            <div>
-              <label htmlFor="email-address" className="sr-only">
-                Email address
-              </label>
-              <input
-                id="email-address"
-                type="email"
-                autoComplete="email"
-                className="relative w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-primary-500 focus:outline-none focus:ring-primary-500 sm:text-sm"
-                placeholder="Email address"
-                {...register("email", { required: true })}
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                autoComplete="current-password"
-                className="relative w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-primary-500 focus:outline-none focus:ring-primary-500 sm:text-sm"
-                placeholder="Password"
-                {...register("password", { required: true })}
-              />
-            </div>
+            <AuthInput
+              id="email-address"
+              type="email"
+              autoComplete="email"
+              placeholder="Email address"
+              {...register("email", { required: true })}
+            />
+            <AuthInput
+              id="password"
+              type="password"
+              autoComplete="current-password"
+              placeholder="Password"
+              {...register("password", { required: true })}
+            />
           </div>
 
           {Object.keys(errors).length > 0 && (

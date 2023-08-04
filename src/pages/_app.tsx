@@ -10,7 +10,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       <Head>
         <title>rent-it</title>
         <meta name="description" content="Warehouse renting service" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg" />
       </Head>
       <MainLayout>
         <Component {...pageProps} />

@@ -19,6 +19,7 @@ import { NumberSpan } from "@/components/NumberSpan";
 
 // const u: User = {
 //   id: 1,
+//   username: "user",
 //   email: "user@gmail.com",
 //   password: "user",
 //   role: "USER",
@@ -27,11 +28,15 @@ import { NumberSpan } from "@/components/NumberSpan";
 //
 // const a: User = {
 //   id: 2,
+//   username: "admin",
 //   email: "admin@example.com",
 //   password: "admin",
 //   role: "ADMIN",
 //   balance: 1000,
 // };
+
+// as calculated in browser without using h-[...px]
+export const headerHeight = "76px";
 
 function HeaderLink({
   href,
@@ -74,7 +79,9 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="h-full w-full">
-      <nav className="sticky top-0 flex h-[76px] items-center justify-between border-b-4 border-primary-400 bg-white p-4 text-gray-800">
+      <nav
+        className={`sticky top-0 flex h-[${headerHeight}] items-center justify-between border-b-4 border-primary-400 bg-white p-4 text-gray-800`}
+      >
         <div className="flex items-center space-x-8">
           <HeaderLink
             href="/"
@@ -85,7 +92,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
               </div>
             }
           >
-            <span className="font-bold">rent-it</span>
+            <span className="ml-1 text-xl font-bold">rent-it</span>
           </HeaderLink>
 
           {user && (
@@ -112,7 +119,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
           <div className="flex items-center space-x-2">
             <span className="flex w-fit gap-1">
               {user.role == "USER" ? <IconUser /> : <IconUserShield />}
-              {user.email}
+              {user.username}
             </span>
             <span className="flex w-fit gap-1">
               <IconCurrencyHryvnia />
