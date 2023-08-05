@@ -3,10 +3,11 @@ import Head from "next/head";
 import { api } from "@/utils/api";
 import "@/styles/globals.css";
 import { MainLayout } from "@/components/MainLayout";
+import { AuthProvider } from "@/hooks/AuthProvider";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <>
+    <AuthProvider>
       <Head>
         <title>rent-it</title>
         <meta name="description" content="Warehouse renting service" />
@@ -15,7 +16,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       <MainLayout>
         <Component {...pageProps} />
       </MainLayout>
-    </>
+    </AuthProvider>
   );
 };
 

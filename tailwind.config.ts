@@ -8,6 +8,9 @@ export default {
       colors: {
         primary: colors.blue,
       },
+      height: {
+        navbar: "76px",
+      },
     },
   },
   plugins: [],

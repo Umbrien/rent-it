@@ -6,11 +6,12 @@
  * TL;DR - This is where all the tRPC server stuff is created and plugged in. The pieces you will
  * need to use are documented accordingly near the end.
  */
-import { initTRPC } from "@trpc/server";
+import { initTRPC, TRPCError } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import superjson from "superjson";
-import { ZodError } from "zod";
+import { type z, ZodError } from "zod";
 import { prisma } from "@/server/db";
+import { userSchema, type InferredUser } from "@/utils/schemas";
 
 /**
  * 1. CONTEXT
@@ -20,7 +21,9 @@ import { prisma } from "@/server/db";
  * These allow you to access things when processing a request, like the database, the session, etc.
  */
 
-type CreateContextOptions = Record<string, never>;
+interface CreateContextOptions {
+  user: Pick<z.SafeParseSuccess<InferredUser>, "data">["data"] | null;
+}
 
 /**
  * This helper generates the "internals" for a tRPC context. If you need to use it, you can export
@@ -32,9 +35,10 @@ type CreateContextOptions = Record<string, never>;
  *
  * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
  */
-const createInnerTRPCContext = (_opts: CreateContextOptions) => {
+const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
     prisma,
+    ...opts,
   };
 };
 
@@ -44,8 +48,11 @@ const createInnerTRPCContext = (_opts: CreateContextOptions) => {
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = (_opts: CreateNextContextOptions) => {
-  return createInnerTRPCContext({});
+export const createTRPCContext = ({ req }: CreateNextContextOptions) => {
+  const validateUser = userSchema.safeParse(req.headers.authorization);
+  const user = validateUser.success ? validateUser.data : null;
+
+  return createInnerTRPCContext({ user });
 };
 
 /**
@@ -92,3 +99,20 @@ export const createTRPCRouter = t.router;
  * are logged in.
  */
 export const publicProcedure = t.procedure;
+
+const isAuthed = t.middleware(({ ctx, next }) => {
+  if (!ctx.user) {
+    throw new TRPCError({ code: "UNAUTHORIZED", message: "Not authenticated" });
+  }
+  return next();
+});
+
+const isAdmin = t.middleware(({ ctx, next }) => {
+  if (!(ctx.user?.role && ctx.user.role === "ADMIN")) {
+    throw new TRPCError({ code: "UNAUTHORIZED", message: "Not admin" });
+  }
+  return next();
+});
+
+export const authedProcedure = t.procedure.use(isAuthed);
+export const adminProcedure = t.procedure.use(isAdmin);

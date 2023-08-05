@@ -35,9 +35,6 @@ import { NumberSpan } from "@/components/NumberSpan";
 //   balance: 1000,
 // };
 
-// as calculated in browser without using h-[...px]
-export const headerHeight = "76px";
-
 function HeaderLink({
   href,
   isActive,
@@ -80,7 +77,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="h-full w-full">
       <nav
-        className={`sticky top-0 flex h-[${headerHeight}] items-center justify-between border-b-4 border-primary-400 bg-white p-4 text-gray-800`}
+        className={`sticky top-0 flex h-[var(--height-navbar)] items-center justify-between border-b-4 border-primary-400 bg-white p-4 text-gray-800`}
       >
         <div className="flex items-center space-x-8">
           <HeaderLink

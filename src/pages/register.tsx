@@ -1,28 +1,16 @@
+import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { headerHeight } from "@/components/MainLayout";
+import { username } from "@/utils/schemas";
 import { AuthInput } from "@/components/auth/Input";
+import { api } from "@/utils/api";
+import { useAuth } from "@/hooks/useAuth";
 
 const validationSchema = z.object({
-  username: z
-    .string()
-    .min(1, { message: "Username is required" })
-    .max(20, { message: "Maximum username length is 20" })
-    .refine(
-      (username) =>
-        username
-          .split("")
-          .every((char) =>
-            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-".includes(
-              char
-            )
-          ),
-      {
-        message: "Username can only contain english letters, numbers, _ and -",
-      }
-    ),
+  username,
   email: z.string().email({ message: "Fill in real email" }),
   password: z
     .string()
@@ -42,14 +30,30 @@ export default function Register() {
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
-    console.log(data);
-    alert("Register");
-    // process login..
+    mutation.mutate(data);
   };
+
+  const router = useRouter();
+
+  const { login } = useAuth();
+  const [mutationError, setMutationError] = useState("");
+
+  const mutation = api.public.register.useMutation({
+    onSuccess: async ({ user }) => {
+      login(user);
+      await router.push("/");
+    },
+    onError: (error) => {
+      setMutationError(error.message);
+    },
+    onMutate: () => {
+      setMutationError("");
+    },
+  });
 
   return (
     <div
-      className={`flex min-h-[calc(100vh-${headerHeight})] flex-col justify-center bg-gray-50 py-12 pb-[${headerHeight}] sm:px-6 lg:px-8`}
+      className={`flex min-h-[var(--h-antinav)] flex-col justify-center bg-gray-50 py-12 sm:px-6 lg:px-8`}
     >
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-700">
@@ -100,6 +104,9 @@ export default function Register() {
               {isValid ? "Register" : "Fill in the form"}
             </button>
           </div>
+          {mutationError && (
+            <div className="text-sm text-red-500">{mutationError}</div>
+          )}
           <div className="text-center">
             <Link
               href="/login"

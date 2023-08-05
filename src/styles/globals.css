@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --h-navbar: theme('height.navbar');
+    --h-antinav: calc(100vh - var(--h-navbar));
+}

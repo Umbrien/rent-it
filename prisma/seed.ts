@@ -8,7 +8,7 @@ async function main() {
     create: {
       username: "kostyantyn",
       email: "kostyantyn@example.com",
-      password: "$2a$10$",
+      password: "kostyantynpassword",
       balance: 1000,
     },
   });
@@ -19,7 +19,7 @@ async function main() {
     create: {
       username: "volodymyr",
       email: "volodymyr@example.com",
-      password: "$3a$20$",
+      password: "volodymyrpassword",
       balance: 10000,
     },
   });
@@ -76,7 +76,7 @@ async function main() {
     create: {
       username: "alice",
       email: "alice@example.com",
-      password: "$2a$10$",
+      password: "alicepassword",
       balance: 200,
     },
   });
@@ -87,7 +87,7 @@ async function main() {
     create: {
       username: "bob",
       email: "bob@example.com",
-      password: "$3a$20$",
+      password: "bobpassword",
       balance: 1000,
     },
   });
@@ -138,7 +138,7 @@ async function main() {
     create: {
       username: "root",
       email: "root@example.com",
-      password: "toor",
+      password: "toortoor",
       role: "ADMIN",
     },
   });
