@@ -9,11 +9,26 @@ import { createTRPCNext } from "@trpc/next";
 import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
 import superjson from "superjson";
 import { type AppRouter } from "@/server/api/root";
+import { userLocalStorageKey } from "@/hooks/AuthProvider";
+import { userSchema } from "@/utils/schemas";
 
 const getBaseUrl = () => {
   if (typeof window !== "undefined") return ""; // browser should use relative url
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`; // SSR should use vercel url
   return `http://localhost:${process.env.PORT ?? 3000}`; // dev SSR should use localhost
+};
+
+export const getAuthHeaderObject = () => {
+  if (typeof window === "undefined") return null; // SSR should not have auth header
+
+  const localStorageUser = localStorage.getItem(userLocalStorageKey);
+  const validateUser = userSchema.safeParse(
+    localStorageUser ? JSON.parse(localStorageUser) : null
+  );
+
+  return validateUser.success
+    ? { authorization: JSON.stringify(validateUser.data) }
+    : null;
 };
 
 /** A set of type-safe react-query hooks for your tRPC API. */
@@ -40,6 +55,11 @@ export const api = createTRPCNext<AppRouter>({
         }),
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc`,
+          headers: () => {
+            return {
+              ...getAuthHeaderObject(),
+            };
+          },
         }),
       ],
     };

@@ -3,8 +3,13 @@ import type { User } from "@prisma/client";
 import { AuthContext } from "@/hooks/useAuth";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 
+export const userLocalStorageKey = "user";
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useLocalStorage<User | null>("user", undefined);
+  const [user, setUser] = useLocalStorage<User | null>(
+    userLocalStorageKey,
+    undefined
+  );
 
   const login = (newUser: User) => {
     setUser(newUser);

@@ -67,14 +67,14 @@ export default function LoginPage() {
               type="email"
               autoComplete="email"
               placeholder="Email address"
-              {...register("email", { required: true })}
+              {...register("email")}
             />
             <AuthInput
               id="password"
               type="password"
               autoComplete="current-password"
               placeholder="Password"
-              {...register("password", { required: true })}
+              {...register("password")}
             />
           </div>
 

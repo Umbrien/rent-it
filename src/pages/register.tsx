@@ -69,21 +69,21 @@ export default function Register() {
               type="text"
               autoComplete="username"
               placeholder="Username"
-              {...register("username", { required: true })}
+              {...register("username")}
             />
             <AuthInput
               id="email-address"
               type="email"
               autoComplete="email"
               placeholder="Email address"
-              {...register("email", { required: true })}
+              {...register("email")}
             />
             <AuthInput
               id="password"
               type="password"
               autoComplete="current-password"
               placeholder="Password"
-              {...register("password", { required: true })}
+              {...register("password")}
             />
           </div>
 

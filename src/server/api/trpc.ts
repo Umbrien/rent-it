@@ -21,8 +21,9 @@ import { userSchema, type InferredUser } from "@/utils/schemas";
  * These allow you to access things when processing a request, like the database, the session, etc.
  */
 
+type ParsedUser = Pick<z.SafeParseSuccess<InferredUser>, "data">["data"];
 interface CreateContextOptions {
-  user: Pick<z.SafeParseSuccess<InferredUser>, "data">["data"] | null;
+  user: ParsedUser | null;
 }
 
 /**
@@ -48,9 +49,17 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = ({ req }: CreateNextContextOptions) => {
-  const validateUser = userSchema.safeParse(req.headers.authorization);
-  const user = validateUser.success ? validateUser.data : null;
+export const createTRPCContext = async ({ req }: CreateNextContextOptions) => {
+  const { authorization } = req.headers;
+  const validateUser = userSchema.safeParse(
+    authorization ? JSON.parse(authorization) : null
+  );
+
+  const user = validateUser.success
+    ? await prisma.user.findUnique({
+        where: { id: validateUser.data?.id },
+      })
+    : null;
 
   return createInnerTRPCContext({ user });
 };
@@ -101,17 +110,31 @@ export const createTRPCRouter = t.router;
 export const publicProcedure = t.procedure;
 
 const isAuthed = t.middleware(({ ctx, next }) => {
-  if (!ctx.user) {
+  const { user } = ctx;
+  if (!user) {
     throw new TRPCError({ code: "UNAUTHORIZED", message: "Not authenticated" });
   }
-  return next();
+
+  return next({
+    ctx: {
+      user,
+    },
+  });
 });
 
 const isAdmin = t.middleware(({ ctx, next }) => {
-  if (!(ctx.user?.role && ctx.user.role === "ADMIN")) {
-    throw new TRPCError({ code: "UNAUTHORIZED", message: "Not admin" });
+  const { user } = ctx;
+  if (!user) {
+    throw new TRPCError({ code: "UNAUTHORIZED", message: "Not authenticated" });
   }
-  return next();
+  if (!(user.role === "ADMIN")) {
+    throw new TRPCError({ code: "FORBIDDEN", message: "Not admin" });
+  }
+  return next({
+    ctx: {
+      user,
+    },
+  });
 });
 
 export const authedProcedure = t.procedure.use(isAuthed);
