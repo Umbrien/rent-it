@@ -7,7 +7,7 @@ import {
 import { useRouter } from "next/router";
 import { api } from "@/utils/api";
 
-export default function RentYourWarehouse() {
+export default function WarehousesToRent() {
   const router = useRouter();
   const { type } = router.query;
   const typeId = Array.isArray(type) ? type[0] : type;

@@ -10,6 +10,7 @@ const TypeSkeleton = () => (
 
 export const WarehouseTypesFilter = () => {
   const router = useRouter();
+  const { locale } = router;
   const { type } = router.query;
   const typeId = Array.isArray(type) ? type[0] : type;
 
@@ -23,7 +24,8 @@ export const WarehouseTypesFilter = () => {
       </h2>
       <div className="flex flex-wrap gap-2">
         {warehouseTypes.data?.map((type) => {
-          console.log(type);
+          const name =
+            locale === "uk" ? type.nameUk : type.nameEn ?? type.nameUk;
           const isCurrentType = typeId === type.id;
           const { type: _, ...routerQuery } = router.query;
           const query = isCurrentType
@@ -40,7 +42,7 @@ export const WarehouseTypesFilter = () => {
                 ${isCurrentType ? "bg-primary-600" : "bg-primary-400"}
               `}
             >
-              {type.nameUk}
+              {name}
             </Link>
           );
         })}

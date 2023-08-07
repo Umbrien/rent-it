@@ -1,8 +1,13 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import type { Warehouse, WarehouseType } from "@prisma/client";
-import { IconBuildingWarehouse, IconMap } from "@tabler/icons-react";
+import type { Warehouse, WarehouseType, User } from "@prisma/client";
+import {
+  IconBuildingWarehouse,
+  IconMap,
+  IconUser,
+  IconAt,
+} from "@tabler/icons-react";
 import { PriceSpan } from "@/components/NumberSpan";
 import { transliterate as tr } from "transliteration";
 
@@ -14,6 +19,9 @@ export const WarehouseCard = ({
   typeEn,
   addressUk,
   dailyRate,
+  ownerName,
+  ownerEmail,
+  displayDetailsBtn = true,
 }: {
   id: Warehouse["id"];
   nameUk: Warehouse["nameUk"];
@@ -22,6 +30,9 @@ export const WarehouseCard = ({
   typeEn: WarehouseType["nameEn"];
   addressUk: Warehouse["addressUk"];
   dailyRate: Warehouse["dailyRate"];
+  ownerName?: User["username"];
+  ownerEmail?: User["email"];
+  displayDetailsBtn?: boolean;
 }) => {
   const router = useRouter();
   const { locale } = router;
@@ -44,15 +55,27 @@ export const WarehouseCard = ({
         <p className="flex gap-1 text-sm text-gray-600">
           <IconMap size={16} className="self-center" /> {address}
         </p>
+        {ownerName && (
+          <p className="text-md mt-3 flex gap-1 text-gray-600">
+            <IconUser size={24} className="self-center" /> {ownerName}
+          </p>
+        )}
+        {ownerEmail && (
+          <p className="text-md flex gap-1 text-gray-600">
+            <IconAt size={24} className="self-center" /> {ownerEmail}
+          </p>
+        )}
       </div>
-      <div className="mt-2">
-        <Link
-          href={`/warehouses-to-rent/${id}`}
-          className="inline-block transform rounded-lg bg-primary-500 px-6 py-2 text-center text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-primary-600"
-        >
-          View Details
-        </Link>
-      </div>
+      {displayDetailsBtn && (
+        <div className="mt-2">
+          <Link
+            href={`/warehouses-to-rent/${id}`}
+            className="inline-block transform rounded-lg bg-primary-500 px-6 py-2 text-center text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-primary-600"
+          >
+            View Details
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

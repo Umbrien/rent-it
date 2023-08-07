@@ -76,4 +76,19 @@ export const publicRouter = createTRPCRouter({
         },
       });
     }),
+  warehouse: publicProcedure
+    .input(
+      z.string().refine((val) => val.length === 25, {
+        message: "Invalid warehouse id",
+      })
+    )
+    .query(async ({ input }) => {
+      return prisma.warehouse.findUnique({
+        where: { id: input },
+        include: {
+          warehouseType: true,
+          owner: true,
+        },
+      });
+    }),
 });
