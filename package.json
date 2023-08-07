@@ -28,6 +28,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.45.2",
     "superjson": "1.12.2",
+    "transliteration": "^2.3.5",
     "zod": "^3.21.4"
   },
   "devDependencies": {

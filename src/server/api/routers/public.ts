@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { userSchema } from "@/utils/schemas";
 import { prisma } from "@/server/db";
@@ -50,5 +51,29 @@ export const publicRouter = createTRPCRouter({
       return {
         user,
       };
+    }),
+  warehouseTypes: publicProcedure.query(async () => {
+    return prisma.warehouseType.findMany();
+  }),
+  availableWarehouses: publicProcedure
+    .input(
+      z.object({
+        typeId: z
+          .string()
+          .refine((val) => val.length === 25)
+          .optional(),
+      })
+    )
+    .query(async ({ input }) => {
+      const { typeId } = input;
+      return prisma.warehouse.findMany({
+        where: {
+          status: "AVAILABLE",
+          warehouseTypeId: typeId,
+        },
+        include: {
+          warehouseType: true,
+        },
+      });
     }),
 });

@@ -26,19 +26,28 @@ model User {
 
 model WarehouseType {
   id         String      @id @default(cuid())
-  type       String      @unique
+  nameUk     String      @unique
+  nameEn     String?     @unique
   warehouses Warehouse[]
 }
 
+enum WarehouseStatus {
+  AVAILABLE
+  RENTED
+  UNAVAILABLE
+}
+
 model Warehouse {
-  id              String        @id @default(cuid())
-  name            String
-  address         String
+  id              String          @id @default(cuid())
+  nameUk          String
+  nameEn          String?
+  addressUk       String // en version will be transliterated
   dailyRate       Int
+  status          WarehouseStatus @default(AVAILABLE)
   rentals         Rental[]
   warehouseTypeId String
-  warehouseType   WarehouseType @relation(fields: [warehouseTypeId], references: [id])
-  owner           User          @relation(fields: [ownerId], references: [id])
+  warehouseType   WarehouseType   @relation(fields: [warehouseTypeId], references: [id])
+  owner           User            @relation(fields: [ownerId], references: [id])
   ownerId         Int
   smartLock       SmartLock?
 }
