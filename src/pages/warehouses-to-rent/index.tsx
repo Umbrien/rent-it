@@ -18,7 +18,9 @@ export default function WarehousesToRent() {
   });
   return (
     <main className="flex min-h-[var(--h-antinav)] flex-col bg-gray-50 py-12 sm:flex-row sm:px-6 lg:px-8">
-      <WarehouseTypesFilter />
+      <div className="sm:order-1 sm:w-1/4">
+        <WarehouseTypesFilter pathname="/warehouses-to-rent" />
+      </div>
 
       <div className="p-4 sm:order-2 sm:w-3/4">
         <h2 className="mb-4 text-3xl font-extrabold text-gray-700">

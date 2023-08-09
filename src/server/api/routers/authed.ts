@@ -97,4 +97,30 @@ export const authedRouter = createTRPCRouter({
         },
       });
     }),
+  addWarehouse: authedProcedure
+    .input(
+      z.object({
+        nameUk: z.string(),
+        nameEn: z.string().optional(),
+        addressUk: z.string(),
+        dailyRate: z.number().positive(),
+        warehouseTypeId: z.string(),
+      })
+    )
+    .mutation(({ input, ctx }) => {
+      return ctx.prisma.warehouse.create({
+        data: {
+          nameUk: input.nameUk,
+          nameEn: input.nameEn,
+          addressUk: input.addressUk,
+          dailyRate: input.dailyRate,
+          warehouseType: {
+            connect: {
+              id: input.warehouseTypeId,
+            },
+          },
+          owner: { connect: { id: ctx.user.id } },
+        },
+      });
+    }),
 });

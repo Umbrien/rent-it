@@ -10,6 +10,7 @@ import { api } from "@/utils/api";
 import { WarehouseStatus } from "@prisma/client";
 import { mapParamToEnum } from "@/utils";
 import { WarehouseStatusFilter } from "@/components/warehouse/WarehouseStatusFilter";
+import Link from "next/link";
 
 export default function WarehousesToRent() {
   const router = useRouter();
@@ -26,13 +27,21 @@ export default function WarehousesToRent() {
     <main className="flex min-h-[var(--h-antinav)] flex-col bg-gray-50 py-12 sm:flex-row sm:px-6 lg:px-8">
       <div className="flex flex-col gap-4 sm:order-1 sm:w-1/4">
         <WarehouseStatusFilter />
-        <WarehouseTypesFilter />
+        <WarehouseTypesFilter pathname="/rent-your-warehouse" />
       </div>
 
       <div className="p-4 sm:order-2 sm:w-3/4">
-        <h2 className="mb-4 text-3xl font-extrabold text-gray-700">
-          Your warehouses
-        </h2>
+        <div className="flex items-baseline gap-3">
+          <h2 className="mb-4 text-3xl font-extrabold text-gray-700">
+            Your warehouses
+          </h2>
+          <Link
+            href="/rent-your-warehouse/new"
+            className="text-lg font-semibold text-gray-600 hover:text-gray-900"
+          >
+            Add new warehouse
+          </Link>
+        </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {yourWarehouses.data?.map(
             ({

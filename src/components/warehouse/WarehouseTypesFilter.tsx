@@ -8,7 +8,15 @@ const TypeSkeleton = () => (
   <div className="flex h-8 w-24 animate-pulse items-center justify-center rounded-full bg-gray-200" />
 );
 
-export const WarehouseTypesFilter = () => {
+export const WarehouseTypesFilter = ({
+  pathname,
+  title = "Filter by type",
+  displayIcon = true,
+}: {
+  pathname: string;
+  title?: string;
+  displayIcon?: boolean;
+}) => {
   const router = useRouter();
   const { locale } = router;
   const { type } = router.query;
@@ -17,10 +25,10 @@ export const WarehouseTypesFilter = () => {
   const warehouseTypes = api.public.warehouseTypes.useQuery();
 
   return (
-    <div className="h-fit rounded-lg bg-white p-4 shadow-md">
+    <div className="h-fit max-w-xl rounded-lg bg-white p-4 shadow-md">
       <h2 className="mb-4 flex gap-1 text-2xl font-bold text-gray-600">
-        <IconFilter className="self-center" />
-        Filter by type
+        {displayIcon && <IconFilter className="self-center" />}
+        {title}
       </h2>
       <div className="flex flex-wrap gap-2">
         {warehouseTypes.data?.map((type) => {
@@ -35,7 +43,7 @@ export const WarehouseTypesFilter = () => {
             <Link
               key={type.id}
               href={{
-                pathname: "/warehouses-to-rent",
+                pathname,
                 query,
               }}
               className={`cursor-pointer rounded-full px-4 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-primary-500 

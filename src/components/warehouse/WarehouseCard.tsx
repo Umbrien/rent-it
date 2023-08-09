@@ -46,7 +46,7 @@ export const WarehouseCard = ({
       <div>
         <div className="flex items-center gap-2">
           <h3 className="mb-2 text-2xl font-semibold text-gray-800">{name}</h3>
-          <WarehouseStatusBadge status={status} />
+          {status && <WarehouseStatusBadge status={status} />}
         </div>
         <p className="mb-2 flex gap-1 text-sm leading-snug text-gray-600">
           <IconBuildingWarehouse size={16} className="self-center" />
