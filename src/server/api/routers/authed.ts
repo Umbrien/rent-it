@@ -77,4 +77,24 @@ export const authedRouter = createTRPCRouter({
         rental,
       };
     }),
+  yourWarehouses: authedProcedure
+    .input(
+      z.object({
+        typeId: z.string().optional(),
+        status: z.enum(["AVAILABLE", "RENTED", "UNAVAILABLE"]).optional(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const { user } = ctx;
+      return ctx.prisma.warehouse.findMany({
+        where: {
+          ownerId: user.id,
+          warehouseTypeId: input.typeId,
+          status: input.status,
+        },
+        include: {
+          warehouseType: true,
+        },
+      });
+    }),
 });

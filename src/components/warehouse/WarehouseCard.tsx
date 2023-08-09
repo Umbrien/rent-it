@@ -10,29 +10,30 @@ import {
 } from "@tabler/icons-react";
 import { PriceSpan } from "@/components/NumberSpan";
 import { transliterate as tr } from "transliteration";
+import { WarehouseStatusBadge } from "@/components/warehouse/WarehouseStatusBadge";
 
 export const WarehouseCard = ({
-  id,
   nameUk,
   nameEn,
+  status,
   typeUk,
   typeEn,
   addressUk,
   dailyRate,
   ownerName,
   ownerEmail,
-  displayDetailsBtn = true,
+  detailsRoute,
 }: {
-  id: Warehouse["id"];
   nameUk: Warehouse["nameUk"];
   nameEn: Warehouse["nameEn"];
+  status?: Warehouse["status"];
   typeUk: WarehouseType["nameUk"];
   typeEn: WarehouseType["nameEn"];
   addressUk: Warehouse["addressUk"];
   dailyRate: Warehouse["dailyRate"];
   ownerName?: User["username"];
   ownerEmail?: User["email"];
-  displayDetailsBtn?: boolean;
+  detailsRoute?: string;
 }) => {
   const router = useRouter();
   const { locale } = router;
@@ -43,7 +44,10 @@ export const WarehouseCard = ({
   return (
     <div className="flex flex-col justify-between rounded-lg bg-white p-6 shadow-lg">
       <div>
-        <h3 className="mb-2 text-2xl font-semibold text-gray-800">{name}</h3>
+        <div className="flex items-center gap-2">
+          <h3 className="mb-2 text-2xl font-semibold text-gray-800">{name}</h3>
+          <WarehouseStatusBadge status={status} />
+        </div>
         <p className="mb-2 flex gap-1 text-sm leading-snug text-gray-600">
           <IconBuildingWarehouse size={16} className="self-center" />
           {type}
@@ -66,10 +70,10 @@ export const WarehouseCard = ({
           </p>
         )}
       </div>
-      {displayDetailsBtn && (
+      {detailsRoute && (
         <div className="mt-2">
           <Link
-            href={`/warehouses-to-rent/${id}`}
+            href={detailsRoute}
             className="inline-block transform rounded-lg bg-primary-500 px-6 py-2 text-center text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-primary-600"
           >
             View Details
@@ -94,6 +98,17 @@ export const WarehouseCardLoading = () => {
           View Details
         </div>
       </div>
+    </div>
+  );
+};
+
+export const WarehouseCardNotFound = () => {
+  return (
+    <div className="flex flex-col items-center justify-center rounded-md bg-white p-4 shadow-md">
+      <h3 className="text-xl font-bold text-gray-700">No warehouses found</h3>
+      <p className="text-gray-500">
+        Try changing the filters or check back later
+      </p>
     </div>
   );
 };

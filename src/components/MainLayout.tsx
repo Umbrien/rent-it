@@ -130,9 +130,9 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
             href={"/admin"}
             className={`${
               user?.role !== "ADMIN" && "invisible"
-            } rounded-md bg-primary-100 p-2 text-primary-500 shadow-lg shadow-primary-200`}
+            } rounded-md bg-primary-100 p-2 text-gray-600 shadow-lg shadow-primary-200`}
           >
-            ⭐️ Admin panel
+            Admin dashboard
           </Link>
           {user ? (
             <>

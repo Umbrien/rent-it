@@ -59,7 +59,6 @@ export default function WarehousePage() {
         {warehouse.isLoading && <WarehouseCardLoading />}
         {warehouse.data && (
           <WarehouseCard
-            id={warehouse.data.id}
             nameUk={warehouse.data.nameUk}
             nameEn={warehouse.data.nameEn}
             typeUk={warehouse.data.warehouseType.nameUk}
@@ -68,7 +67,6 @@ export default function WarehousePage() {
             dailyRate={warehouse.data.dailyRate}
             ownerName={warehouse.data.owner.username}
             ownerEmail={warehouse.data.owner.email}
-            displayDetailsBtn={false}
           />
         )}
         <div className="mt-4">
