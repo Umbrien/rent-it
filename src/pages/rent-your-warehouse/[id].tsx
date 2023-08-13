@@ -5,14 +5,38 @@ import { api } from "@/utils/api";
 import { AuthInput } from "@/components/auth/Input";
 import { WarehouseTypesFilter } from "@/components/warehouse/WarehouseTypesFilter";
 import { RentalCard } from "@/components/rental/Rental";
+import { WarehouseStatus } from "@prisma/client";
+import { Alert } from "@/components/UI/Alert";
+import { Button } from "@/components/UI/Button";
+import { WarehouseStatusBadge } from "@/components/warehouse/WarehouseStatusBadge";
 
 export default function WarehousePage() {
   const router = useRouter();
   const { id } = router.query;
   const warehouseId = Array.isArray(id) ? id[0] : id;
+  if (!warehouseId) return <div>Not found</div>;
 
-  const warehouse = api.public.warehouse.useQuery(warehouseId ?? "");
-  const rentals = api.authed.warehouseRentals.useQuery(warehouseId ?? "");
+  const warehouse = api.public.warehouse.useQuery(warehouseId);
+  const rentals = api.authed.warehouseRentals.useQuery(warehouseId);
+  const lastRental = rentals.data?.slice(-1)[0];
+
+  const updateWarehouseStatus = api.authed.updateWarehouseStatus.useMutation({
+    onSuccess: async () => {
+      await warehouse.refetch();
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
+  const handleUpdateWarehouseStatus = async (
+    status: Exclude<WarehouseStatus, "RENTED">
+  ) => {
+    await updateWarehouseStatus.mutateAsync({
+      warehouseId,
+      status,
+    });
+  };
 
   return (
     <div className="flex min-h-[var(--h-antinav)] flex-col bg-gray-50 py-12 sm:flex-row sm:px-6 lg:px-8">
@@ -52,15 +76,7 @@ export default function WarehousePage() {
                 displayIcon={false}
               />
 
-              <button
-                type="button"
-                className="inline-flex items-center justify-center rounded-md border border-transparent bg-primary-500 px-4 py-2 text-sm font-medium text-white shadow-sm
-            hover:bg-primary-600
-            focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
-            disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                Update
-              </button>
+              <Button label="Update" />
             </div>
           </>
         )}
@@ -68,7 +84,7 @@ export default function WarehousePage() {
         <hr className="my-6 border-gray-200" />
 
         <div>
-          <h2>Rentals</h2>
+          <h2 className="mb-6 text-2xl font-bold text-gray-700">Rentals</h2>
           {rentals.isLoading && <div>Loading...</div>}
           {rentals.data?.map((rental) => (
             <RentalCard
@@ -83,6 +99,37 @@ export default function WarehousePage() {
             />
           ))}
           {rentals.data?.length === 0 && <div>No rentals</div>}
+        </div>
+
+        <hr className="my-6 border-gray-200" />
+
+        <div>
+          <h2 className="mb-6 flex items-center gap-4 text-2xl font-bold text-gray-700">
+            Warehouse status{" "}
+            {warehouse.data && (
+              <WarehouseStatusBadge status={warehouse.data?.status} />
+            )}
+          </h2>
+          {rentals.isLoading && <div>Loading...</div>}
+          {(lastRental?.status === "ACTIVE" ||
+            warehouse.data?.status === "RENTED") && (
+            <Alert
+              message="You can't change the status of the warehouse while it is rented."
+              color="yellow"
+            />
+          )}
+          {warehouse.data?.status === "AVAILABLE" && (
+            <Button
+              label="Make unavailable"
+              onClick={() => void handleUpdateWarehouseStatus("UNAVAILABLE")}
+            />
+          )}
+          {warehouse.data?.status === "UNAVAILABLE" && (
+            <Button
+              label="Make available"
+              onClick={() => void handleUpdateWarehouseStatus("AVAILABLE")}
+            />
+          )}
         </div>
       </div>
     </div>

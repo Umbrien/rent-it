@@ -128,6 +128,9 @@ export const authedRouter = createTRPCRouter({
     .input(z.string())
     .query(async ({ input, ctx }) => {
       return ctx.prisma.rental.findMany({
+        orderBy: {
+          endDate: "asc",
+        },
         where: {
           warehouseId: input,
         },
@@ -207,5 +210,33 @@ export const authedRouter = createTRPCRouter({
         user: updatedUser,
         admin: updatedAdmin,
       };
+    }),
+  updateWarehouseStatus: authedProcedure
+    .input(
+      z.object({
+        warehouseId: z.string(),
+        status: z.enum(["AVAILABLE", "UNAVAILABLE"]),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const warehouse = await ctx.prisma.warehouse.findUnique({
+        where: {
+          id: input.warehouseId,
+        },
+      });
+      if (!warehouse) {
+        throw new Error("Warehouse not found");
+      }
+      if (warehouse.ownerId !== ctx.user.id) {
+        throw new Error("Not your warehouse");
+      }
+      return ctx.prisma.warehouse.update({
+        where: {
+          id: input.warehouseId,
+        },
+        data: {
+          status: input.status,
+        },
+      });
     }),
 });

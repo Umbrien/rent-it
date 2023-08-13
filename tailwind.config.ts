@@ -28,6 +28,12 @@ export default {
     "bg-gray-100",
     "bg-gray-200",
     "bg-gray-500",
+
+    // alerts
+    "border-yellow-500",
+    "text-yellow-500",
+    "text-yellow-700",
+    "bg-yellow-100",
   ],
   theme: {
     extend: {

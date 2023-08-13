@@ -4,6 +4,7 @@ import { RentalStatusBadge } from "@/components/rental/RentalStatusBadge";
 import { PriceSpan } from "@/components/NumberSpan";
 import { prettyDate } from "@/utils/date";
 import { api } from "@/utils/api";
+import { Button } from "@/components/UI/Button";
 
 interface RentalProps {
   id: Rental["id"];
@@ -57,16 +58,7 @@ export const RentalCard = ({
           <RentalStatusBadge status={status} />
         </div>
         {status === "ACTIVE" && (
-          <button
-            type="button"
-            onClick={handleCancel}
-            className="inline-flex items-center justify-center rounded-md border border-transparent bg-primary-500 px-4 py-2 text-sm font-medium text-white shadow-sm
-            hover:bg-primary-600
-            focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
-            "
-          >
-            Cancel
-          </button>
+          <Button label="Cancel" onClick={handleCancel} />
         )}
       </div>
     </div>
