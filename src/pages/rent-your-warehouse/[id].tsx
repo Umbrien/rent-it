@@ -5,7 +5,7 @@ import { api } from "@/utils/api";
 import { AuthInput } from "@/components/auth/Input";
 import { WarehouseTypesFilter } from "@/components/warehouse/WarehouseTypesFilter";
 import { RentalCard } from "@/components/rental/Rental";
-import { WarehouseStatus } from "@prisma/client";
+import type { WarehouseStatus } from "@prisma/client";
 import { Alert } from "@/components/UI/Alert";
 import { Button } from "@/components/UI/Button";
 import { WarehouseStatusBadge } from "@/components/warehouse/WarehouseStatusBadge";
@@ -36,6 +36,16 @@ export default function WarehousePage() {
       warehouseId,
       status,
     });
+  };
+
+  const deleteWarehouse = api.authed.deleteWarehouse.useMutation({
+    onSuccess: async () => {
+      await router.push("/rent-your-warehouse");
+    },
+  });
+
+  const handleDeleteWarehouse = async () => {
+    await deleteWarehouse.mutateAsync(warehouseId);
   };
 
   return (
@@ -130,6 +140,25 @@ export default function WarehousePage() {
               onClick={() => void handleUpdateWarehouseStatus("AVAILABLE")}
             />
           )}
+        </div>
+        <hr className="my-6 border-gray-200" />
+
+        <div>
+          <h2 className="mb-6 flex items-center gap-4 text-2xl font-bold text-gray-700">
+            Delete warehouse
+          </h2>
+          {(lastRental?.status === "ACTIVE" ||
+            warehouse.data?.status === "RENTED") && (
+            <Alert
+              message="You can't delete the warehouse while it is rented."
+              color="yellow"
+            />
+          )}
+          <Alert
+            message="Deleting the warehouse will also delete all the rentals associated with it."
+            color="red"
+          />
+          <Button label="Delete" onClick={() => void handleDeleteWarehouse()} />
         </div>
       </div>
     </div>

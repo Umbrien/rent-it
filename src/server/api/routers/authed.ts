@@ -239,4 +239,24 @@ export const authedRouter = createTRPCRouter({
         },
       });
     }),
+  deleteWarehouse: authedProcedure
+    .input(z.string())
+    .mutation(async ({ input, ctx }) => {
+      const warehouse = await ctx.prisma.warehouse.findUnique({
+        where: {
+          id: input,
+        },
+      });
+      if (!warehouse) {
+        throw new Error("Warehouse not found");
+      }
+      if (warehouse.ownerId !== ctx.user.id) {
+        throw new Error("Not your warehouse");
+      }
+      return ctx.prisma.warehouse.delete({
+        where: {
+          id: input,
+        },
+      });
+    }),
 });
