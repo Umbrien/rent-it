@@ -154,11 +154,19 @@ export default function WarehousePage() {
               color="yellow"
             />
           )}
-          <Alert
-            message="Deleting the warehouse will also delete all the rentals associated with it."
-            color="red"
-          />
-          <Button label="Delete" onClick={() => void handleDeleteWarehouse()} />
+          {lastRental?.status !== "ACTIVE" &&
+            warehouse.data?.status !== "RENTED" && (
+              <>
+                <Alert
+                  message="Deleting the warehouse will also delete all the rentals associated with it."
+                  color="red"
+                />
+                <Button
+                  label="Delete"
+                  onClick={() => void handleDeleteWarehouse()}
+                />
+              </>
+            )}
         </div>
       </div>
     </div>

@@ -1,3 +1,4 @@
+import z from "zod";
 import { createTRPCRouter, adminProcedure } from "@/server/api/trpc";
 import { RentalStatus, WarehouseStatus } from "@prisma/client";
 
@@ -45,4 +46,19 @@ export const adminRouter = createTRPCRouter({
       },
     };
   }),
+  createWarehouseType: adminProcedure
+    .input(
+      z.object({
+        nameUk: z.string(),
+        nameEn: z.string().optional(),
+      })
+    )
+    .mutation(({ input, ctx }) => {
+      return ctx.prisma.warehouseType.create({
+        data: {
+          nameUk: input.nameUk,
+          nameEn: input.nameEn,
+        },
+      });
+    }),
 });
