@@ -76,9 +76,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="h-full w-full">
-      <nav
-        className={`sticky top-0 flex h-[var(--height-navbar)] items-center justify-between border-b-4 border-primary-400 bg-white p-4 text-gray-800`}
-      >
+      <nav className="sticky top-0 z-50 flex h-[var(--height-navbar)] items-center justify-between border-b-4 border-primary-400 bg-white/60 p-4 text-gray-800 backdrop-blur">
         <div className="flex items-center space-x-8">
           <HeaderLink
             href="/"
@@ -161,12 +159,6 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
           )}
         </div>
       </nav>
-      {/*<button onClick={() => login(u)} className="bg-orange-200 text-gray-900">*/}
-      {/*  Login user*/}
-      {/*</button>*/}
-      {/*<button onClick={() => login(a)} className="bg-orange-200 text-gray-900">*/}
-      {/*  Login admin*/}
-      {/*</button>*/}
 
       {children}
     </div>

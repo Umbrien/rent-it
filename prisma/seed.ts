@@ -129,6 +129,7 @@ async function main() {
       create: {
         startDate: new Date(),
         endDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+        dailyRate: garage.dailyRate,
         balance: garage.dailyRate * 7,
         user: {
           connect: {
@@ -148,6 +149,7 @@ async function main() {
       create: {
         startDate: new Date(),
         endDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 10),
+        dailyRate: postalOffice.dailyRate,
         balance: postalOffice.dailyRate * 10,
         user: {
           connect: {

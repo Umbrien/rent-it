@@ -8,7 +8,7 @@ export const authedRouter = createTRPCRouter({
       const { user } = ctx;
       const updatedUser = await ctx.prisma.user.update({
         where: { id: user.id },
-        data: { balance: user.balance + input },
+        data: { balance: { increment: input } },
       });
       return {
         user: updatedUser,
@@ -44,7 +44,7 @@ export const authedRouter = createTRPCRouter({
         await ctx.prisma.$transaction([
           ctx.prisma.user.update({
             where: { id: user.id },
-            data: { balance: user.balance - rentalCost },
+            data: { balance: { decrement: rentalCost } },
           }),
           ctx.prisma.warehouse.update({
             where: { id: input.warehouseId },
@@ -56,6 +56,7 @@ export const authedRouter = createTRPCRouter({
             data: {
               startDate: new Date(),
               endDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * input.days),
+              dailyRate: warehouse.dailyRate,
               balance: rentalCost,
               user: {
                 connect: {
@@ -122,5 +123,89 @@ export const authedRouter = createTRPCRouter({
           owner: { connect: { id: ctx.user.id } },
         },
       });
+    }),
+  warehouseRentals: authedProcedure
+    .input(z.string())
+    .query(async ({ input, ctx }) => {
+      return ctx.prisma.rental.findMany({
+        where: {
+          warehouseId: input,
+        },
+        include: {
+          user: true,
+        },
+      });
+    }),
+  stopRental: authedProcedure
+    .input(z.number())
+    .mutation(async ({ input, ctx }) => {
+      const rental = await ctx.prisma.rental.findUnique({
+        where: {
+          id: input,
+        },
+        include: {
+          warehouse: true,
+        },
+      });
+      if (!rental) {
+        throw new Error("Rental not found");
+      }
+      if (rental.warehouse.ownerId !== ctx.user.id) {
+        throw new Error("Not your rental");
+      }
+      const daysRented = Math.ceil(
+        (Date.now() - rental.startDate.getTime()) / (1000 * 60 * 60 * 24)
+      );
+      const rentalDaysLeft = Math.ceil(
+        (rental.endDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+      );
+      const [updatedRental, updatedWarehouse, updatedUser, updatedAdmin] =
+        await ctx.prisma.$transaction([
+          ctx.prisma.rental.update({
+            where: {
+              id: input,
+            },
+            data: {
+              endDate: new Date(),
+              status: rental.endDate > new Date() ? "CANCELLED" : "COMPLETED",
+              balance: 0,
+            },
+          }),
+          ctx.prisma.warehouse.update({
+            where: {
+              id: rental.warehouseId,
+            },
+            data: {
+              status: "AVAILABLE",
+            },
+          }),
+          ctx.prisma.user.update({
+            where: {
+              id: rental.userId,
+            },
+            data: {
+              balance: {
+                increment: rentalDaysLeft * rental.dailyRate,
+              },
+            },
+          }),
+          ctx.prisma.user.update({
+            where: {
+              id: ctx.user.id,
+            },
+            data: {
+              balance: {
+                increment: daysRented * rental.dailyRate,
+              },
+            },
+          }),
+        ]);
+
+      return {
+        rental: updatedRental,
+        warehouse: updatedWarehouse,
+        user: updatedUser,
+        admin: updatedAdmin,
+      };
     }),
 });
