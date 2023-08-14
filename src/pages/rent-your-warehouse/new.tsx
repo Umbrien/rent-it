@@ -3,8 +3,11 @@ import { useRouter } from "next/router";
 import { AuthInput } from "@/components/auth/Input";
 import { WarehouseTypesFilter } from "@/components/warehouse/WarehouseTypesFilter";
 import { api } from "@/utils/api";
+import { useTranslations } from "next-intl";
 
 const NewWarehouse = () => {
+  const t = useTranslations("pages.Rent-Your-Warehouse-New");
+
   const router = useRouter();
   const { type } = router.query;
 
@@ -42,30 +45,30 @@ const NewWarehouse = () => {
   return (
     <main className="flex min-h-[var(--h-antinav)] flex-col bg-gray-50 p-12">
       <h2 className="mb-4 text-3xl font-extrabold text-gray-700">
-        New Warehouse
+        {t("title")}
       </h2>
       <div className="flex w-fit flex-col gap-2">
         <AuthInput
-          id="name-en"
-          placeholder="Name in Ukrainian"
+          id="name-uk"
+          placeholder={t("name-uk")}
           value={nameUk}
           onChange={(e) => setNameUk(e.target.value)}
         />
         <AuthInput
-          id="name-uk"
-          placeholder="Name in English"
+          id="name-en"
+          placeholder={t("name-en")}
           value={nameEn}
           onChange={(e) => setNameEn(e.target.value)}
         />
         <AuthInput
           id="address-uk"
-          placeholder="Address in Ukrainian"
+          placeholder={t("address-uk")}
           value={addressUk}
           onChange={(e) => setAddressUk(e.target.value)}
         />
         <AuthInput
           id="daily-rate"
-          placeholder="Daily Rate"
+          placeholder={t("daily-rate")}
           value={dailyRate}
           type="number"
           onChange={(e) => setDailyRate(e.target.value)}
@@ -86,11 +89,9 @@ const NewWarehouse = () => {
             focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
             disabled:cursor-not-allowed disabled:opacity-50"
         >
-          Save
+          {t("save")}
         </button>
-        {success && (
-          <p className="text-green-500">Warehouse has been created</p>
-        )}
+        {success && <p className="text-green-500">{t("warehouse-created")}</p>}
         {error && <p className="text-red-500">{error}</p>}
       </div>
     </main>

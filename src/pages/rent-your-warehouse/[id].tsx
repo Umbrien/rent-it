@@ -9,15 +9,17 @@ import type { WarehouseStatus } from "@prisma/client";
 import { Alert } from "@/components/UI/Alert";
 import { Button } from "@/components/UI/Button";
 import { WarehouseStatusBadge } from "@/components/warehouse/WarehouseStatusBadge";
+import { useTranslations } from "next-intl";
 
 export default function WarehousePage() {
+  const t = useTranslations("pages.Rent-Your-Warehouse-ID");
+
   const router = useRouter();
   const { id } = router.query;
   const warehouseId = Array.isArray(id) ? id[0] : id;
-  if (!warehouseId) return <div>Not found</div>;
 
-  const warehouse = api.public.warehouse.useQuery(warehouseId);
-  const rentals = api.authed.warehouseRentals.useQuery(warehouseId);
+  const warehouse = api.public.warehouse.useQuery(warehouseId ?? "");
+  const rentals = api.authed.warehouseRentals.useQuery(warehouseId ?? "");
   const lastRental = rentals.data?.slice(-1)[0];
 
   const updateWarehouseStatus = api.authed.updateWarehouseStatus.useMutation({
@@ -33,7 +35,7 @@ export default function WarehousePage() {
     status: Exclude<WarehouseStatus, "RENTED">
   ) => {
     await updateWarehouseStatus.mutateAsync({
-      warehouseId,
+      warehouseId: warehouseId ?? "",
       status,
     });
   };
@@ -45,37 +47,37 @@ export default function WarehousePage() {
   });
 
   const handleDeleteWarehouse = async () => {
-    await deleteWarehouse.mutateAsync(warehouseId);
+    await deleteWarehouse.mutateAsync(warehouseId ?? "");
   };
+
+  if (!warehouseId) return <div>Not found</div>;
 
   return (
     <div className="flex min-h-[var(--h-antinav)] flex-col bg-gray-50 py-12 sm:flex-row sm:px-6 lg:px-8">
       <div>
-        <h2 className="mb-6 text-2xl font-bold text-gray-700">
-          Warehouse details
-        </h2>
+        <h2 className="mb-6 text-2xl font-bold text-gray-700">{t("title")}</h2>
         {warehouse.isLoading && <WarehouseCardLoading />}
         {warehouse.data && (
           <>
             <div className="flex w-fit flex-col gap-2">
               <AuthInput
-                id="name-en"
-                placeholder="Name in Ukrainian"
+                id="name-uk"
+                placeholder={t("name-uk")}
                 value={warehouse.data.nameUk}
               />
               <AuthInput
-                id="name-uk"
-                placeholder="Name in English"
+                id="name-en"
+                placeholder={t("name-en")}
                 value={warehouse.data.nameEn ?? ""}
               />
               <AuthInput
                 id="address-uk"
-                placeholder="Address in Ukrainian"
+                placeholder={t("address-uk")}
                 value={warehouse.data.addressUk}
               />
               <AuthInput
                 id="daily-rate"
-                placeholder="Daily Rate"
+                placeholder={t("daily-rate")}
                 value={warehouse.data.dailyRate}
                 type="number"
               />
@@ -86,7 +88,7 @@ export default function WarehousePage() {
                 displayIcon={false}
               />
 
-              <Button label="Update" />
+              <Button label={t("update")} />
             </div>
           </>
         )}
@@ -95,7 +97,7 @@ export default function WarehousePage() {
 
         <div>
           <h2 className="mb-6 text-2xl font-bold text-gray-700">Rentals</h2>
-          {rentals.isLoading && <div>Loading...</div>}
+          {rentals.isLoading && <div>{t("loading")}</div>}
           {rentals.data?.map((rental) => (
             <RentalCard
               key={"rental-" + rental.id}
@@ -108,14 +110,14 @@ export default function WarehousePage() {
               refetch={rentals.refetch}
             />
           ))}
-          {rentals.data?.length === 0 && <div>No rentals</div>}
+          {rentals.data?.length === 0 && <div>{t("no-rentals")}</div>}
         </div>
 
         <hr className="my-6 border-gray-200" />
 
         <div>
           <h2 className="mb-6 flex items-center gap-4 text-2xl font-bold text-gray-700">
-            Warehouse status{" "}
+            {t("warehouse-status")}
             {warehouse.data && (
               <WarehouseStatusBadge status={warehouse.data?.status} />
             )}
@@ -124,19 +126,19 @@ export default function WarehousePage() {
           {(lastRental?.status === "ACTIVE" ||
             warehouse.data?.status === "RENTED") && (
             <Alert
-              message="You can't change the status of the warehouse while it is rented."
+              message={t("alert-status-change-warehouse-rented")}
               color="yellow"
             />
           )}
           {warehouse.data?.status === "AVAILABLE" && (
             <Button
-              label="Make unavailable"
+              label={t("make-unavailable")}
               onClick={() => void handleUpdateWarehouseStatus("UNAVAILABLE")}
             />
           )}
           {warehouse.data?.status === "UNAVAILABLE" && (
             <Button
-              label="Make available"
+              label={t("make-available")}
               onClick={() => void handleUpdateWarehouseStatus("AVAILABLE")}
             />
           )}
@@ -145,24 +147,21 @@ export default function WarehousePage() {
 
         <div>
           <h2 className="mb-6 flex items-center gap-4 text-2xl font-bold text-gray-700">
-            Delete warehouse
+            {t("delete")}
           </h2>
           {(lastRental?.status === "ACTIVE" ||
             warehouse.data?.status === "RENTED") && (
             <Alert
-              message="You can't delete the warehouse while it is rented."
+              message={t("alert-delete-warehouse-rented")}
               color="yellow"
             />
           )}
           {lastRental?.status !== "ACTIVE" &&
             warehouse.data?.status !== "RENTED" && (
               <>
-                <Alert
-                  message="Deleting the warehouse will also delete all the rentals associated with it."
-                  color="red"
-                />
+                <Alert message={t("alert-deleting-warehouse")} color="red" />
                 <Button
-                  label="Delete"
+                  label={t("delete")}
                   onClick={() => void handleDeleteWarehouse()}
                 />
               </>

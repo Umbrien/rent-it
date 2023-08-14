@@ -40,6 +40,33 @@
     "Rent-Your-Warehouse": {
       "your-warehouses": "Your warehouses",
       "add-new-warehouse": "Add new warehouse"
+    },
+    "Rent-Your-Warehouse-New": {
+      "title": "New warehouse",
+      "name-uk": "Name in Ukrainian",
+      "name-en": "Name in English",
+      "address-uk": "Address in Ukrainian",
+      "daily-rate": "Daily rate",
+      "save": "Save",
+      "warehouse-created": "Warehouse created successfully"
+    },
+    "Rent-Your-Warehouse-ID": {
+      "title": "Warehouse details",
+      "name-uk": "Name in Ukrainian",
+      "name-en": "Name in English",
+      "address-uk": "Address in Ukrainian",
+      "daily-rate": "Daily rate",
+      "update": "Update",
+      "rentals": "Rentals",
+      "loading": "Loading...",
+      "no-rentals": "No rentals",
+      "warehouse-status": "Warehouse status",
+      "alert-status-change-warehouse-rented": "You can't change the status of the warehouse while it is rented.",
+      "make-unavailable": "Make unavailable",
+      "make-available": "Make available",
+      "alert-delete-warehouse-rented": "You can't delete the warehouse while it is rented.",
+      "alert-deleting-warehouse": "Deleting the warehouse will also delete all the rentals associated with it.",
+      "delete": "Delete"
     }
   },
   "components": {
@@ -48,6 +75,9 @@
       "warehouses-to-rent": "Warehouses to rent",
       "admin-dashboard": "Admin dashboard",
       "login": "Login"
+    },
+    "Alert": {
+      "notice": "Notice"
     },
     "warehouse": {
       "WarehouseCard": {
@@ -65,6 +95,15 @@
         "title-filter": "Filter by type",
         "title-warehouse": "Warehouse type"
       }
+    },
+    "rental": {
+      "RentalCard": {
+        "start-date": "Start date",
+        "end-date": "End date",
+        "daily-rate": "Daily rate",
+        "status": "Status",
+        "cancel": "Cancel"
+      }
     }
   },
   "enums": {
@@ -72,6 +111,11 @@
       "AVAILABLE": "Available",
       "UNAVAILABLE": "Not available",
       "RENTED": "Rented"
+    },
+    "RentalStatus": {
+      "ACTIVE": "Активний",
+      "CANCELLED": "Скасований",
+      "COMPLETED": "Завершений"
     }
   }
 }

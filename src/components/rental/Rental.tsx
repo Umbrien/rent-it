@@ -5,6 +5,7 @@ import { PriceSpan } from "@/components/NumberSpan";
 import { prettyDate } from "@/utils/date";
 import { api } from "@/utils/api";
 import { Button } from "@/components/UI/Button";
+import { useTranslations } from "next-intl";
 
 interface RentalProps {
   id: Rental["id"];
@@ -25,6 +26,8 @@ export const RentalCard = ({
   username,
   refetch,
 }: RentalProps) => {
+  const t = useTranslations("components.rental.RentalCard");
+
   const mutation = api.authed.stopRental.useMutation({
     onSuccess: async () => {
       await refetch();
@@ -40,25 +43,25 @@ export const RentalCard = ({
       <h3 className="mb-2 text-lg font-medium">{username}</h3>
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm text-gray-500">Start Date</p>
+          <p className="text-sm text-gray-500">{t("start-date")}</p>
           <p>{prettyDate(startDate)}</p>
         </div>
         <div>
-          <p className="text-sm text-gray-500">End Date</p>
+          <p className="text-sm text-gray-500">{t("end-date")}</p>
           <p>{prettyDate(endDate)}</p>
         </div>
         <div>
-          <p className="text-sm text-gray-500">Daily Rate</p>
+          <p className="text-sm text-gray-500">{t("daily-rate")}</p>
           <PriceSpan price={dailyRate} />
         </div>
       </div>
       <div className="mt-4 flex items-center justify-start gap-5">
         <div>
-          <p className="text-sm text-gray-500">Status</p>
+          <p className="text-sm text-gray-500">{t("status")}</p>
           <RentalStatusBadge status={status} />
         </div>
         {status === "ACTIVE" && (
-          <Button label="Cancel" onClick={handleCancel} />
+          <Button label={t("cancel")} onClick={handleCancel} />
         )}
       </div>
     </div>

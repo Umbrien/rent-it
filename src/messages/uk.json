@@ -40,6 +40,33 @@
     "Rent-Your-Warehouse": {
       "your-warehouses": "Ваші склади",
       "add-new-warehouse": "Додати новий склад"
+    },
+    "Rent-Your-Warehouse-New": {
+      "title": "Додати новий склад",
+      "name-uk": "Назва українською",
+      "name-en": "Назва англійською",
+      "address-uk": "Адреса українською",
+      "daily-rate": "Добова ставка",
+      "save": "Зберегти",
+      "warehouse-created": "Склад створено"
+    },
+    "Rent-Your-Warehouse-ID": {
+      "title": "Деталі складу",
+      "name-uk": "Назва українською",
+      "name-en": "Назва англійською",
+      "address-uk": "Адреса українською",
+      "daily-rate": "Добова ставка",
+      "update": "Оновити",
+      "rentals": "Оренди",
+      "loading": "Завантаження...",
+      "no-rentals": "Немає оренд",
+      "warehouse-status": "Статус складу",
+      "alert-status-change-warehouse-rented": "Ви не можете змінити статус складу, оскільки він орендований",
+      "make-unavailable": "Зробити недоступним",
+      "make-available": "Зробити доступним",
+      "alert-delete-warehouse-rented": "Ви не можете видалити склад, оскільки він орендований",
+      "alert-deleting-warehouse": "Видалення складу також видалить всі оренди, пов'язані з ним. Ви впевнені, що хочете видалити склад?",
+      "delete": "Видалити"
     }
   },
   "components": {
@@ -48,6 +75,9 @@
       "warehouses-to-rent": "Склади для оренди",
       "admin-dashboard": "Адмін-панель",
       "login": "Увійти"
+    },
+    "Alert": {
+      "notice": "Зверніть увагу"
     },
     "warehouse": {
       "WarehouseCard": {
@@ -65,6 +95,15 @@
         "title-filter": "Фільтр за типом",
         "title-warehouse": "Тип складу"
       }
+    },
+    "rental": {
+      "RentalCard": {
+        "start-date": "Дата початку",
+        "end-date": "Дата кінця",
+        "daily-rate": "Добова ставка",
+        "status": "Статус",
+        "cancel": "Скасувати"
+      }
     }
   },
   "enums": {
@@ -72,6 +111,11 @@
       "AVAILABLE": "Доступний",
       "UNAVAILABLE": "Не доступний",
       "RENTED": "Орендований"
+    },
+    "RentalStatus": {
+      "ACTIVE": "Активний",
+      "CANCELLED": "Скасований",
+      "COMPLETED": "Завершений"
     }
   }
 }

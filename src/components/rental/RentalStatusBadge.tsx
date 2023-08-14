@@ -1,5 +1,6 @@
 import type { Rental } from "@prisma/client";
 import type colors from "tailwindcss/colors";
+import { useTranslations } from "next-intl";
 
 function getStatusColor(status: Rental["status"]): keyof typeof colors {
   switch (status) {
@@ -13,6 +14,7 @@ function getStatusColor(status: Rental["status"]): keyof typeof colors {
 }
 
 export const RentalStatusBadge = ({ status }: { status: Rental["status"] }) => {
+  const t = useTranslations("enums.RentalStatus");
   const statusColor = getStatusColor(status);
   return (
     <span
@@ -20,7 +22,7 @@ export const RentalStatusBadge = ({ status }: { status: Rental["status"] }) => {
         border-${statusColor}-500 text-${statusColor}-500
       `}
     >
-      {status}
+      {t(status)}
     </span>
   );
 };
