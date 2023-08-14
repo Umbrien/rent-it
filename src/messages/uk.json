@@ -79,6 +79,40 @@
       "insufficient-balance": "Недостатньо коштів на рахунку",
       "rent-it": "Орендувати",
       "rental-successful": "Оренда успішна"
+    },
+    "Admin": {
+      "title": "Адмін-панель",
+      "description": "Керуйте аналітикою, експортом даних тощо",
+      "statistics": "Статистика",
+      "statistics-description": "Перегляньте аналітику платформи",
+      "data-export": "Експорт даних",
+      "data-export-description": "Експортуйте дані у форматі CSV",
+      "warehouses": "Склади",
+      "warehouses-description": "Керуйте типами складів"
+    },
+    "Admin-Statistics": {
+      "title-statistics": "статистика",
+      "warehouses": "Склади",
+      "rentals": "Оренди",
+      "status-chart-warehouses": "Графік статусів складів",
+      "status-chart-rentals": "Графік статусів оренд"
+    },
+    "Admin-Data-Export": {
+      "title": "Експорт даних",
+      "description": "Експортуйте дані платформи у форматі CSV",
+      "loading": "Завантаження...",
+      "download-users": "Завантажити {count} користувачів у форматі CSV",
+      "download-warehouses": "Завантажити {count} складів у форматі CSV",
+      "download-rentals": "Завантажити {count} оренд у форматі CSV"
+    },
+    "Admin-Warehouse-Types": {
+      "title": "Типи складів",
+      "description": "Оновити, видалити типи складів, або створити новий",
+      "update": "Оновити",
+      "delete": "Видалити",
+      "create": "Створити",
+      "name-uk": "Назва українською",
+      "name-en": "Назва англійською"
     }
   },
   "components": {

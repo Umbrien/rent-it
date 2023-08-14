@@ -2,6 +2,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import colors from "tailwindcss/colors";
 import { api } from "@/utils/api";
+import { useTranslations } from "next-intl";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -32,28 +33,31 @@ const PieSkeleton = () => (
 );
 
 export default function Home() {
+  const t = useTranslations("pages.Admin-Statistics");
+  const tWarehouseStatus = useTranslations("enums.WarehouseStatus");
+  const tRentalStatus = useTranslations("enums.RentalStatus");
+
   const statistics = api.admin.statistics.useQuery();
-  if (statistics.data) {
-    console.log(statistics.data);
-  }
 
   return (
     <main className="flex min-h-[var(--h-antinav)] w-full flex-1 flex-col items-center justify-center bg-gray-50 px-20 text-center">
       <h1 className="mb-12 rounded-md bg-white p-6 text-6xl font-bold shadow-md">
         Rent-it{" "}
         <span className="bg-gradient-to-r from-violet-300 to-sky-300 bg-clip-text text-transparent">
-          statistics
+          {t("title-statistics")}
         </span>
       </h1>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="rounded-lg bg-white p-4 shadow-md">
-          <h2 className="mb-2 text-lg font-semibold">Warehouses</h2>
+          <h2 className="mb-2 text-lg font-semibold">{t("warehouses")}</h2>
           <div className="w-72 md:w-96">
             {statistics.data ? (
               <Pie
                 data={{
-                  labels: statistics.data.warehouses.statuses,
+                  labels: statistics.data.warehouses.statuses.map((status) =>
+                    tWarehouseStatus(status)
+                  ),
                   datasets: [
                     {
                       data: statistics.data.warehouses.data,
@@ -72,16 +76,18 @@ export default function Home() {
             )}
           </div>
           <div className="mt-2 text-center">
-            <p>Status chart</p>
+            <p>{t("status-chart-warehouses")}</p>
           </div>
         </div>
         <div className="rounded-lg bg-white p-4 shadow-md">
-          <h2 className="mb-2 text-lg font-semibold">Rentals</h2>
+          <h2 className="mb-2 text-lg font-semibold">{t("rentals")}</h2>
           <div className="w-72 md:w-96">
             {statistics.data ? (
               <Pie
                 data={{
-                  labels: statistics.data.rentals.statuses,
+                  labels: statistics.data.rentals.statuses.map((status) =>
+                    tRentalStatus(status)
+                  ),
                   datasets: [
                     {
                       data: statistics.data.rentals.data,
@@ -100,7 +106,7 @@ export default function Home() {
             )}
           </div>
           <div className="mt-2 text-center">
-            <p>Status chart</p>
+            <p>{t("status-chart-rentals")}</p>
           </div>
         </div>
       </div>

@@ -79,6 +79,40 @@
       "insufficient-balance": "Insufficient balance",
       "rent-it": "Rent it",
       "rental-successful": "Rental successfull"
+    },
+    "Admin": {
+      "title": "Admin dashboard",
+      "description": "Manage analytics, data exports, and more",
+      "statistics": "Statistics",
+      "statistics-description": "View site analytics",
+      "data-export": "Data export",
+      "data-export-description": "Download CSV exports of site data",
+      "warehouses": "Warehouses",
+      "warehouses-description": "Manage warehouse types"
+    },
+    "Admin-Statistics": {
+      "title-statistics": "statistics",
+      "warehouses": "Warehouses",
+      "rentals": "Rentals",
+      "status-chart-warehouses": "Warehouses status chart",
+      "status-chart-rentals": "Rentals status chart"
+    },
+    "Admin-Data-Export": {
+      "title": "Data export",
+      "description": "Download CSV exports of system data",
+      "loading": "Loading...",
+      "download-users": "Download {count} users CSV",
+      "download-warehouses": "Download {count} warehouses CSV",
+      "download-rentals": "Download {count} rentals CSV"
+    },
+    "Admin-Warehouse-Types": {
+      "title": "Warehouse Types",
+      "description": "Update, Delete warehouse types, or create new one",
+      "update": "Update",
+      "delete": "Delete",
+      "create": "Create",
+      "name-uk": "Name in Ukrainian",
+      "name-en": "Name in English"
     }
   },
   "components": {

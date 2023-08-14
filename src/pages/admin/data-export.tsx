@@ -1,5 +1,6 @@
 import { stringify } from "csv-stringify";
 import { api } from "@/utils/api";
+import { useTranslations } from "next-intl";
 
 function downloadCSV({
   data,
@@ -25,6 +26,8 @@ function downloadCSV({
 }
 
 export default function DataExport() {
+  const t = useTranslations("pages.Admin-Data-Export");
+
   const allData = api.admin.allUsersWarehousesRentals.useQuery();
   const handleDownloadUsers = () => {
     if (allData.data) {
@@ -48,19 +51,17 @@ export default function DataExport() {
     <main className="mx-auto my-16 max-w-3xl rounded-lg bg-white p-8 shadow-lg">
       <div className="text-center">
         <h1 className="mb-4 text-4xl font-semibold text-gray-800">
-          Data Export
+          {t("title")}
         </h1>
-        <p className="mb-8 text-gray-600">
-          Download CSV exports of system data
-        </p>
+        <p className="mb-8 text-gray-600">{t("description")}</p>
         <button
           onClick={handleDownloadUsers}
           disabled={!allData.data}
           className="w-full rounded-full bg-blue-500 px-6 py-3 text-lg font-semibold text-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50 disabled:bg-gray-300"
         >
           {allData.data
-            ? `Download ${allData.data.users.length} users CSV`
-            : "Loading..."}
+            ? t("download-users", { count: allData.data.users.length })
+            : t("loading")}
         </button>
         <button
           onClick={handleDownloadWarehouses}
@@ -68,8 +69,10 @@ export default function DataExport() {
           className="my-6 w-full rounded-full bg-blue-500 px-6 py-3 text-lg font-semibold text-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50 disabled:bg-gray-300"
         >
           {allData.data
-            ? `Download ${allData.data.warehouses.length} warehouses CSV`
-            : "Loading..."}
+            ? t("download-warehouses", {
+                count: allData.data.warehouses.length,
+              })
+            : t("loading")}
         </button>
         <button
           onClick={handleDownloadRentals}
@@ -77,8 +80,8 @@ export default function DataExport() {
           className="w-full rounded-full bg-blue-500 px-6 py-3 text-lg font-semibold text-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50 disabled:bg-gray-300"
         >
           {allData.data
-            ? `Download ${allData.data.rentals.length} rentals CSV`
-            : "Loading..."}
+            ? t("download-rentals", { count: allData.data.rentals.length })
+            : t("loading")}
         </button>
       </div>
     </main>
