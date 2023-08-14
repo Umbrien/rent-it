@@ -2,10 +2,9 @@ import React from "react";
 import type { User, Rental } from "@prisma/client";
 import { RentalStatusBadge } from "@/components/rental/RentalStatusBadge";
 import { PriceSpan } from "@/components/NumberSpan";
-import { prettyDate } from "@/utils/date";
 import { api } from "@/utils/api";
 import { Button } from "@/components/UI/Button";
-import { useTranslations } from "next-intl";
+import { useTranslations, useFormatter } from "next-intl";
 
 interface RentalProps {
   id: Rental["id"];
@@ -27,6 +26,13 @@ export const RentalCard = ({
   refetch,
 }: RentalProps) => {
   const t = useTranslations("components.rental.RentalCard");
+  const format = useFormatter();
+  const formatter = (date: Date) =>
+    format.dateTime(date, {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
 
   const mutation = api.authed.stopRental.useMutation({
     onSuccess: async () => {
@@ -44,11 +50,11 @@ export const RentalCard = ({
       <div className="flex items-center justify-between">
         <div>
           <p className="text-sm text-gray-500">{t("start-date")}</p>
-          <p>{prettyDate(startDate)}</p>
+          <p>{formatter(startDate)}</p>
         </div>
         <div>
           <p className="text-sm text-gray-500">{t("end-date")}</p>
-          <p>{prettyDate(endDate)}</p>
+          <p>{formatter(endDate)}</p>
         </div>
         <div>
           <p className="text-sm text-gray-500">{t("daily-rate")}</p>

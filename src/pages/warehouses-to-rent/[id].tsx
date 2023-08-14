@@ -8,8 +8,11 @@ import { PriceSpan } from "@/components/NumberSpan";
 import { api } from "@/utils/api";
 import { useAuth } from "@/hooks/useAuth";
 import { AuthInput } from "@/components/auth/Input";
+import { useTranslations } from "next-intl";
 
 export default function WarehousePage() {
+  const t = useTranslations("pages.Warehouses-To-Rent-ID");
+
   const router = useRouter();
   const { id } = router.query;
   const warehouseId = Array.isArray(id) ? id[0] : id;
@@ -53,9 +56,7 @@ export default function WarehousePage() {
   return (
     <div className="flex min-h-[var(--h-antinav)] flex-col bg-gray-50 py-12 sm:flex-row sm:px-6 lg:px-8">
       <div className="sm:order-2 sm:w-3/4">
-        <h2 className="mb-6 text-2xl font-bold text-gray-700">
-          Rental checkout
-        </h2>
+        <h2 className="mb-6 text-2xl font-bold text-gray-700">{t("title")}</h2>
         {warehouse.isLoading && <WarehouseCardLoading />}
         {warehouse.data && (
           <WarehouseCard
@@ -70,23 +71,21 @@ export default function WarehousePage() {
           />
         )}
         <div className="mt-4">
-          <p className="text-gray-600">
-            For how many days do you want to rent this warehouse?
-          </p>
+          <p className="text-gray-600">{t("how-many-days")}</p>
         </div>
         <AuthInput
           id="days"
           value={days}
           onChange={handleDaysChange}
           type="number"
-          placeholder="Days"
+          placeholder={t("days")}
           className="mt-2 border-2 border-primary-400 p-2"
         />
         {warehouse.data && (
           <div className="mt-4">
-            <p className="text-gray-600">Total Price</p>
+            <p className="text-gray-600">{t("total")}</p>
             <span>
-              {days} days * {warehouse.data.dailyRate} ={" "}
+              {days} {t("days", { days })} * {warehouse.data.dailyRate} ={" "}
             </span>
             <PriceSpan
               className="text-2xl font-bold"
@@ -95,17 +94,17 @@ export default function WarehousePage() {
           </div>
         )}
         {(user?.balance ?? 0) < rentalPrice && (
-          <p className="mt-4 text-red-600">Insufficient balance!</p>
+          <p className="mt-4 text-red-600">{t("insufficient-balance")}</p>
         )}
         <button
           onClick={onSubmit}
           disabled={(user?.balance ?? 0) < rentalPrice}
           className="mt-6 rounded bg-primary-500 px-4 py-2 font-semibold text-white hover:bg-primary-600 disabled:cursor-not-allowed disabled:bg-gray-400"
         >
-          Rent It
+          {t("rent-it")}
         </button>
         {rentSuccess && (
-          <p className="mt-4 text-green-600">Rental successful!</p>
+          <p className="mt-4 text-green-600">{t("rental-successful")}</p>
         )}
         {mutateError && <p className="mt-4 text-red-600">{mutateError}</p>}
       </div>

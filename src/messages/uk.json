@@ -67,6 +67,18 @@
       "alert-delete-warehouse-rented": "Ви не можете видалити склад, оскільки він орендований",
       "alert-deleting-warehouse": "Видалення складу також видалить всі оренди, пов'язані з ним. Ви впевнені, що хочете видалити склад?",
       "delete": "Видалити"
+    },
+    "Warehouses-To-Rent": {
+      "title": "Доступні склади"
+    },
+    "Warehouses-To-Rent-ID": {
+      "title": "Оплата оренди",
+      "how-many-days": "На скільки днів ви хочете орендувати склад?",
+      "total": "Всього",
+      "days": "{days, plural, one {день} few {дні} many {днів} other {днів}}",
+      "insufficient-balance": "Недостатньо коштів на рахунку",
+      "rent-it": "Орендувати",
+      "rental-successful": "Оренда успішна"
     }
   },
   "components": {

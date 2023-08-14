@@ -67,6 +67,18 @@
       "alert-delete-warehouse-rented": "You can't delete the warehouse while it is rented.",
       "alert-deleting-warehouse": "Deleting the warehouse will also delete all the rentals associated with it.",
       "delete": "Delete"
+    },
+    "Warehouses-To-Rent": {
+      "title": "Available warehouses"
+    },
+    "Warehouses-To-Rent-ID": {
+      "title": "Rental checkout",
+      "how-many-days": "How many days do you want to rent the warehouse for?",
+      "total": "Total",
+      "days": "{days, plural, =1 {day} other {days}}",
+      "insufficient-balance": "Insufficient balance",
+      "rent-it": "Rent it",
+      "rental-successful": "Rental successfull"
     }
   },
   "components": {

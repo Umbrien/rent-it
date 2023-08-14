@@ -7,8 +7,11 @@ import {
 } from "@/components/warehouse/WarehouseCard";
 import { useRouter } from "next/router";
 import { api } from "@/utils/api";
+import { useTranslations } from "next-intl";
 
 export default function WarehousesToRent() {
+  const t = useTranslations("pages.Warehouses-To-Rent");
+
   const router = useRouter();
   const { type } = router.query;
   const typeId = Array.isArray(type) ? type[0] : type;
@@ -24,7 +27,7 @@ export default function WarehousesToRent() {
 
       <div className="p-4 sm:order-2 sm:w-3/4">
         <h2 className="mb-4 text-3xl font-extrabold text-gray-700">
-          Available Warehouses
+          {t("title")}
         </h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {availableWarehouses.data?.map(
