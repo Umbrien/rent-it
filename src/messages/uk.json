@@ -29,6 +29,14 @@
       "min-password-length": "Мінімальна довжина пароля 8 символів",
       "max-password-length": "Максимальна довжина пароля 20 символів"
     },
+    "Top-Up": {
+      "title": "Поповнення рахунку",
+      "amount": "Сума",
+      "amount-positive": "Сума повинна бути більше 0",
+      "fill-in-the-form": "Заповніть форму",
+      "top-up-btn": "Поповнити",
+      "successfully-topped-up": "Успішно поповнено на {amount} грн"
+    },
     "Rent-Your-Warehouse": {
       "your-warehouses": "Ваші склади",
       "add-new-warehouse": "Додати новий склад"

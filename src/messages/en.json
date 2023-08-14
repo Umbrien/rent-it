@@ -29,6 +29,14 @@
       "min-password-length": "Password must be at least 8 characters long",
       "max-password-length": "Maximum password length is 40 characters"
     },
+    "Top-Up": {
+      "title": "Top Up",
+      "amount": "Amount",
+      "amount-positive": "Amount must be positive",
+      "fill-in-the-form": "Fill in the form",
+      "top-up-btn": "Top up",
+      "successfully-topped-up": "Successfully topped up {amount}"
+    },
     "Rent-Your-Warehouse": {
       "your-warehouses": "Your warehouses",
       "add-new-warehouse": "Add new warehouse"
