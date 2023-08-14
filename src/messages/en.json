@@ -11,6 +11,24 @@
       "warehouses-to-rent-description-line-1": "Find a warehouse to rent",
       "warehouses-to-rent-description-line-2": "in your area"
     },
+    "Auth": {
+      "login": "Login",
+      "login-btn": "Login",
+      "register": "Register",
+      "register-btn": "Register",
+      "username": "Username",
+      "email-address": "Email address",
+      "password": "Password",
+      "fill-in-the-form": "Fill in the form",
+      "dont-have-an-account": "Don&apos;t have an account? Register",
+      "already-have-an-account": "Already have an account? Login",
+      "username-required": "Username is required",
+      "max-username-length": "Maximum username length is 20 characters",
+      "username-contains": "Username can only contain english letters, numbers, _ and -",
+      "fill-in-real-email": "Fill in a real email address",
+      "min-password-length": "Password must be at least 8 characters long",
+      "max-password-length": "Maximum password length is 40 characters"
+    },
     "Rent-Your-Warehouse": {
       "your-warehouses": "Your warehouses",
       "add-new-warehouse": "Add new warehouse"

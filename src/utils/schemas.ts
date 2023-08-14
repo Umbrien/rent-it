@@ -2,8 +2,8 @@ import { z } from "zod";
 
 export const username = z
   .string()
-  .min(1, { message: "Username is required" })
-  .max(20, { message: "Maximum username length is 20" })
+  .min(1, { message: "username-required" })
+  .max(20, { message: "max-username-length" })
   .refine(
     (username) =>
       username
@@ -14,7 +14,7 @@ export const username = z
           )
         ),
     {
-      message: "Username can only contain english letters, numbers, _ and -",
+      message: "username-contains",
     }
   );
 

@@ -11,6 +11,24 @@
       "warehouses-to-rent-description-line-1": "Знайдіть склад для оренди",
       "warehouses-to-rent-description-line-2": "в своєму місті"
     },
+    "Auth": {
+      "login": "Вхід",
+      "login-btn": "Увійти",
+      "register": "Реєстрація",
+      "register-btn": "Зареєструватися",
+      "username": "Ім'я користувача",
+      "email-address": "Email адреса",
+      "password": "Пароль",
+      "fill-in-the-form": "Заповніть форму",
+      "dont-have-an-account": "Немає аккаунта? Зареєструйтесь",
+      "already-have-an-account": "Вже маєте аккаунт? Увійдіть",
+      "username-required": "Ім'я користувача обов'язкове",
+      "max-username-length": "Максимальна довжина імені користувача 20 символів",
+      "username-contains": "Ім'я користувача може містити тільки англійські літери, цифри, _ та -",
+      "fill-in-real-email": "Введіть справжню email адресу",
+      "min-password-length": "Мінімальна довжина пароля 8 символів",
+      "max-password-length": "Максимальна довжина пароля 20 символів"
+    },
     "Rent-Your-Warehouse": {
       "your-warehouses": "Ваші склади",
       "add-new-warehouse": "Додати новий склад"

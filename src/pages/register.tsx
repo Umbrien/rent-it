@@ -8,19 +8,22 @@ import { username } from "@/utils/schemas";
 import { AuthInput } from "@/components/auth/Input";
 import { api } from "@/utils/api";
 import { useAuth } from "@/hooks/useAuth";
+import { useTranslations } from "next-intl";
 
 const validationSchema = z.object({
   username,
-  email: z.string().email({ message: "Fill in real email" }),
+  email: z.string().email({ message: "fill-in-real-email" }),
   password: z
     .string()
-    .min(8, { message: "Minimal password length is 8" })
-    .max(40, { message: "Maximum password length is 40" }),
+    .min(8, { message: "min-password-length" })
+    .max(40, { message: "max-password-length" }),
 });
 
 type ValidationSchema = z.infer<typeof validationSchema>;
 
 export default function Register() {
+  const t = useTranslations("pages.Auth");
+
   const {
     register,
     handleSubmit,
@@ -57,7 +60,7 @@ export default function Register() {
     >
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-700">
-          Register
+          {t("register")}
         </h2>
         <form
           className="mt-8 space-y-6"
@@ -68,21 +71,21 @@ export default function Register() {
               id="username-input"
               type="text"
               autoComplete="username"
-              placeholder="Username"
+              placeholder={t("username")}
               {...register("username")}
             />
             <AuthInput
               id="email-address"
               type="email"
               autoComplete="email"
-              placeholder="Email address"
+              placeholder={t("email-address")}
               {...register("email")}
             />
             <AuthInput
               id="password"
               type="password"
               autoComplete="current-password"
-              placeholder="Password"
+              placeholder={t("password")}
               {...register("password")}
             />
           </div>
@@ -90,7 +93,9 @@ export default function Register() {
           {Object.keys(errors).length > 0 && (
             <div className="text-sm text-red-500">
               {Object.values(errors).map((error) => (
-                <div key={error.message}>{error.message}</div>
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                <div key={error.message}>{t(error.message)}</div>
               ))}
             </div>
           )}
@@ -101,7 +106,7 @@ export default function Register() {
               disabled={!isValid && Object.keys(errors).length > 0}
               className="group relative flex w-full justify-center rounded-md border border-transparent bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-primary-200 disabled:text-gray-600"
             >
-              {isValid ? "Register" : "Fill in the form"}
+              {isValid ? t("register") : t("fill-in-the-form")}
             </button>
           </div>
           {mutationError && (
@@ -112,7 +117,7 @@ export default function Register() {
               href="/login"
               className="font-medium text-primary-600 hover:text-primary-500"
             >
-              Already have an account? Login
+              {t("already-have-an-account")}
             </Link>
           </div>
         </form>
