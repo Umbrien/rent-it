@@ -46,7 +46,7 @@ function HeaderLink({
 }
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
-  const t = useTranslations("Header");
+  const t = useTranslations("components.Header");
 
   const router = useRouter();
   const { user, logout } = useAuth();

@@ -11,6 +11,7 @@ import {
 import { PriceSpan } from "@/components/NumberSpan";
 import { transliterate as tr } from "transliteration";
 import { WarehouseStatusBadge } from "@/components/warehouse/WarehouseStatusBadge";
+import { useTranslations } from "next-intl";
 
 export const WarehouseCard = ({
   nameUk,
@@ -35,6 +36,8 @@ export const WarehouseCard = ({
   ownerEmail?: User["email"];
   detailsRoute?: string;
 }) => {
+  const t = useTranslations("components.warehouse.WarehouseCard");
+
   const router = useRouter();
   const { locale } = router;
   const name = locale === "uk" ? nameUk : nameEn ?? nameUk;
@@ -54,7 +57,7 @@ export const WarehouseCard = ({
         </p>
         <p className="mb-4 text-2xl font-bold text-primary-500">
           <PriceSpan price={dailyRate} />
-          <span className="text-sm text-primary-300"> / day</span>
+          <span className="text-sm text-primary-300"> / {t("per-day")}</span>
         </p>
         <p className="flex gap-1 text-sm text-gray-600">
           <IconMap size={16} className="self-center" /> {address}
@@ -76,7 +79,7 @@ export const WarehouseCard = ({
             href={detailsRoute}
             className="inline-block transform rounded-lg bg-primary-500 px-6 py-2 text-center text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-primary-600"
           >
-            View Details
+            {t("view-details")}
           </Link>
         </div>
       )}
@@ -94,7 +97,7 @@ export const WarehouseCardLoading = () => {
         <div className="flex h-5 gap-1 rounded bg-gray-200"></div>
       </div>
       <div className="mt-2">
-        <div className="inline-block transform rounded-lg bg-gray-200 px-6 py-2 text-center text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-gray-300">
+        <div className="inline-block transform rounded-lg bg-gray-200 px-6 py-2 text-center text-sm font-semibold text-transparent text-white shadow-md transition hover:-translate-y-0.5 hover:bg-gray-300">
           View Details
         </div>
       </div>
@@ -103,12 +106,11 @@ export const WarehouseCardLoading = () => {
 };
 
 export const WarehouseCardNotFound = () => {
+  const t = useTranslations("components.warehouse.WarehouseCardNotFound");
   return (
     <div className="flex flex-col items-center justify-center rounded-md bg-white p-4 shadow-md">
-      <h3 className="text-xl font-bold text-gray-700">No warehouses found</h3>
-      <p className="text-gray-500">
-        Try changing the filters or check back later
-      </p>
+      <h3 className="text-xl font-bold text-gray-700">{t("title")}</h3>
+      <p className="text-gray-500">{t("description")}</p>
     </div>
   );
 };

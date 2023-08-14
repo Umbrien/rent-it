@@ -1,8 +1,51 @@
 {
-  "Header": {
-    "rent-your-warehouse": "Арендуйте свій склад",
-    "warehouses-to-rent": "Склади для оренди",
-    "admin-dashboard": "Адмін-панель",
-    "login": "Увійти"
+  "pages": {
+    "Index": {
+      "title-rent": "Арендуйте",
+      "title-your": "ваш",
+      "title-warehouse": "Склад",
+      "rent-your-warehouse": "Арендуйте свій склад",
+      "rent-your-warehouse-description-line-1": "Арендуйте свій склад",
+      "rent-your-warehouse-description-line-2": "і почніть заробляти на цьому",
+      "warehouses-to-rent": "Склади для оренди",
+      "warehouses-to-rent-description-line-1": "Знайдіть склад для оренди",
+      "warehouses-to-rent-description-line-2": "в своєму місті"
+    },
+    "Rent-Your-Warehouse": {
+      "your-warehouses": "Ваші склади",
+      "add-new-warehouse": "Додати новий склад"
+    }
+  },
+  "components": {
+    "Header": {
+      "rent-your-warehouse": "Арендуйте свій склад",
+      "warehouses-to-rent": "Склади для оренди",
+      "admin-dashboard": "Адмін-панель",
+      "login": "Увійти"
+    },
+    "warehouse": {
+      "WarehouseCard": {
+        "view-details": "Дивитись деталі",
+        "per-day": "день"
+      },
+      "WarehouseCardNotFound": {
+        "title": "Склади не знайдені",
+        "description": "Спробуйте змінити фільтри або перевірте пізніше"
+      },
+      "StatusFilter": {
+        "title": "Фільтр за статусом"
+      },
+      "TypeFilter": {
+        "title-filter": "Фільтр за типом",
+        "title-warehouse": "Тип складу"
+      }
+    }
+  },
+  "enums": {
+    "WarehouseStatus": {
+      "AVAILABLE": "Доступний",
+      "UNAVAILABLE": "Не доступний",
+      "RENTED": "Орендований"
+    }
   }
 }

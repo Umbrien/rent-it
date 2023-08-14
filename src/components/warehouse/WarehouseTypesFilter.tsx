@@ -3,6 +3,7 @@ import Link from "next/link";
 import { IconFilter } from "@tabler/icons-react";
 import React from "react";
 import { api } from "@/utils/api";
+import { useTranslations } from "next-intl";
 
 const TypeSkeleton = () => (
   <div className="flex h-8 w-24 animate-pulse items-center justify-center rounded-full bg-gray-200" />
@@ -10,13 +11,15 @@ const TypeSkeleton = () => (
 
 export const WarehouseTypesFilter = ({
   pathname,
-  title = "Filter by type",
+  title = "title-filter",
   displayIcon = true,
 }: {
   pathname: string;
-  title?: string;
+  title?: "title-filter" | "title-warehouse";
   displayIcon?: boolean;
 }) => {
+  const t = useTranslations("components.warehouse.TypeFilter");
+
   const router = useRouter();
   const { locale } = router;
   const { type } = router.query;
@@ -28,7 +31,7 @@ export const WarehouseTypesFilter = ({
     <div className="h-fit max-w-xl rounded-lg bg-white p-4 shadow-md">
       <h2 className="mb-4 flex gap-1 text-2xl font-bold text-gray-600">
         {displayIcon && <IconFilter className="self-center" />}
-        {title}
+        {t(title)}
       </h2>
       <div className="flex flex-wrap gap-2">
         {warehouseTypes.data?.map((type) => {

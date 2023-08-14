@@ -73,7 +73,7 @@ const NewWarehouse = () => {
 
         <WarehouseTypesFilter
           pathname="/rent-your-warehouse/new"
-          title="Warehouse type"
+          title="title-warehouse"
           displayIcon={false}
         />
 

@@ -2,6 +2,7 @@ import type { Warehouse } from "@prisma/client";
 import Link from "next/link";
 import type { Url } from "next/dist/shared/lib/router/router";
 import type colors from "tailwindcss/colors";
+import { useTranslations } from "next-intl";
 
 function getStatusColor(status: Warehouse["status"]): keyof typeof colors {
   switch (status) {
@@ -19,6 +20,7 @@ export const WarehouseStatusBadge = ({
 }: {
   status: Warehouse["status"];
 }) => {
+  const t = useTranslations("enums.WarehouseStatus");
   const statusColor = getStatusColor(status);
   return (
     <span
@@ -26,7 +28,7 @@ export const WarehouseStatusBadge = ({
         border-${statusColor}-500 text-${statusColor}-500
       `}
     >
-      {status}
+      {t(status)}
     </span>
   );
 };
@@ -40,6 +42,7 @@ export const WarehouseStatusBadgeLink = ({
   href: Url;
   isCurrent: boolean;
 }) => {
+  const t = useTranslations("enums.WarehouseStatus");
   const statusColor = getStatusColor(status);
 
   return (
@@ -51,7 +54,7 @@ export const WarehouseStatusBadgeLink = ({
       hover:bg-${statusColor}-200 hover:text-${statusColor}-700
       `}
     >
-      {status}
+      {t(status)}
     </Link>
   );
 };

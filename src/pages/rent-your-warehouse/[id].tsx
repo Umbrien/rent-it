@@ -82,7 +82,7 @@ export default function WarehousePage() {
 
               <WarehouseTypesFilter
                 pathname={`/rent-your-warehouse/${id as string}`}
-                title="Warehouse type"
+                title="title-warehouse"
                 displayIcon={false}
               />
 

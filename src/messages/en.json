@@ -1,8 +1,51 @@
 {
-  "Header": {
-    "rent-your-warehouse": "Rent your warehouse",
-    "warehouses-to-rent": "Warehouses to rent",
-    "admin-dashboard": "Admin dashboard",
-    "login": "Login"
+  "pages": {
+    "Index": {
+      "title-rent": "Rent",
+      "title-your": "Your",
+      "title-warehouse": "Warehouse",
+      "rent-your-warehouse": "Rent your warehouse",
+      "rent-your-warehouse-description-line-1": "Rent your warehouse",
+      "rent-your-warehouse-description-line-2": "and start earning money",
+      "warehouses-to-rent": "Warehouses to rent",
+      "warehouses-to-rent-description-line-1": "Find a warehouse to rent",
+      "warehouses-to-rent-description-line-2": "in your area"
+    },
+    "Rent-Your-Warehouse": {
+      "your-warehouses": "Your warehouses",
+      "add-new-warehouse": "Add new warehouse"
+    }
+  },
+  "components": {
+    "Header": {
+      "rent-your-warehouse": "Rent your warehouse",
+      "warehouses-to-rent": "Warehouses to rent",
+      "admin-dashboard": "Admin dashboard",
+      "login": "Login"
+    },
+    "warehouse": {
+      "WarehouseCard": {
+        "view-details": "View details",
+        "per-day": "day"
+      },
+      "WarehouseCardNotFound": {
+        "title": "No warehouses found",
+        "description": "Try changing the filters or check back later"
+      },
+      "StatusFilter": {
+        "title": "Filter by status"
+      },
+      "TypeFilter": {
+        "title-filter": "Filter by type",
+        "title-warehouse": "Warehouse type"
+      }
+    }
+  },
+  "enums": {
+    "WarehouseStatus": {
+      "AVAILABLE": "Available",
+      "UNAVAILABLE": "Not available",
+      "RENTED": "Rented"
+    }
   }
 }
