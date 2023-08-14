@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import type { Route } from "next";
 import { useAuth } from "@/hooks/useAuth";
-// import type { User } from "@prisma/client";
 import {
   IconBuildingWarehouse,
   IconArrowDown,
@@ -16,24 +15,7 @@ import {
   IconLogout,
 } from "@tabler/icons-react";
 import { NumberSpan } from "@/components/NumberSpan";
-
-// const u: User = {
-//   id: 1,
-//   username: "user",
-//   email: "user@gmail.com",
-//   password: "user",
-//   role: "USER",
-//   balance: 1000,
-// };
-//
-// const a: User = {
-//   id: 2,
-//   username: "admin",
-//   email: "admin@example.com",
-//   password: "admin",
-//   role: "ADMIN",
-//   balance: 1000,
-// };
+import { useTranslations } from "next-intl";
 
 function HeaderLink({
   href,
@@ -64,6 +46,8 @@ function HeaderLink({
 }
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
+  const t = useTranslations("Header");
+
   const router = useRouter();
   const { user, logout } = useAuth();
 
@@ -97,14 +81,14 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
                 isActive={router.pathname == "/rent-your-warehouse"}
                 icon={<IconArrowUp />}
               >
-                Rent your warehouse
+                {t("rent-your-warehouse")}
               </HeaderLink>
               <HeaderLink
                 href="/warehouses-to-rent"
                 isActive={router.pathname == "/warehouses-to-rent"}
                 icon={<IconArrowDown />}
               >
-                Warehouses to rent
+                {t("warehouses-to-rent")}
               </HeaderLink>
             </>
           )}
@@ -130,31 +114,54 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
               user?.role !== "ADMIN" && "invisible"
             } rounded-md bg-primary-100 p-2 text-gray-600 shadow-lg shadow-primary-200`}
           >
-            Admin dashboard
+            {t("admin-dashboard")}
           </Link>
+          <div className="flex flex-col">
+            <Link
+              href={{
+                pathname: router.pathname,
+                query: router.query,
+              }}
+              locale="uk"
+              className={`${
+                router.locale == "uk" ? "font-medium text-primary-400" : ""
+              }`}
+            >
+              UA
+            </Link>
+            <Link
+              href={{
+                pathname: router.pathname,
+                query: router.query,
+              }}
+              locale="en"
+              className={`${
+                router.locale == "en" ? "font-medium text-primary-400" : ""
+              }`}
+            >
+              EN
+            </Link>
+          </div>
           {user ? (
-            <>
-              <HeaderLink
-                href="/top-up"
-                isActive={router.pathname == "/top-up"}
-                icon={<IconWallet />}
-              >
-                Top up balance
-              </HeaderLink>
+            <div className="flex gap-3">
+              <Link href="/top-up">
+                <span className="flex w-fit items-center gap-1">
+                  <IconWallet />
+                </span>
+              </Link>
               <button onClick={handleLogout}>
-                <span className={`flex w-fit gap-1`}>
+                <span className="flex w-fit items-center gap-1">
                   <IconLogout />
-                  Logout
                 </span>
               </button>
-            </>
+            </div>
           ) : (
             <HeaderLink
               href="/login"
               isActive={router.pathname == "/login"}
               icon={<IconLogin />}
             >
-              Login
+              {t("login")}
             </HeaderLink>
           )}
         </div>

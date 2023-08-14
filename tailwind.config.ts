@@ -41,7 +41,7 @@ export default {
         primary: colors.blue,
       },
       height: {
-        navbar: "76px",
+        navbar: "84px",
       },
     },
   },
