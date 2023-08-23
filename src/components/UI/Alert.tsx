@@ -12,7 +12,7 @@ export const Alert = ({
   // const t = useTranslations("components.Alert");
   return (
     <div
-      className={`rounded-b border-t-4 border-${color}-500 bg-${color}-100 px-4 py-3 text-${color}-700 shadow-md`}
+      className={`rounded-b border-t-4 border-${color}-500 bg-${color}-100 my-5 px-4 py-3 text-${color}-700 shadow-md`}
       role="alert"
     >
       <div className="flex">

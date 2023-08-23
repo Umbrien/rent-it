@@ -96,7 +96,9 @@ export default function WarehousePage() {
         <hr className="my-6 border-gray-200" />
 
         <div>
-          <h2 className="mb-6 text-2xl font-bold text-gray-700">Rentals</h2>
+          <h2 className="mb-6 text-2xl font-bold text-gray-700">
+            {t("rentals")}
+          </h2>
           {rentals.isLoading && <div>{t("loading")}</div>}
           {rentals.data?.map((rental) => (
             <RentalCard

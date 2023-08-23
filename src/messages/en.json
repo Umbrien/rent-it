@@ -159,9 +159,9 @@
       "RENTED": "Rented"
     },
     "RentalStatus": {
-      "ACTIVE": "Активний",
-      "CANCELLED": "Скасований",
-      "COMPLETED": "Завершений"
+      "ACTIVE": "Active",
+      "CANCELLED": "Cancelled",
+      "COMPLETED": "Completed"
     }
   }
 }
